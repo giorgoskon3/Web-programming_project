@@ -24,6 +24,24 @@
         </nav>
     </header>
 
+    <div class = "container">   
+        <h1>Post a Job</h1>
+        <form id = "jobForm">  
+            <label> Job Title</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" required><br><br>
+            <label> Job Description</label><br>
+            <textarea id="jobDescription" name="jobDescription" rows="4" cols="50" placeholder="Job Description" required></textarea><br><br>
+            <label> Job Location</label>
+            <input type="text" id="jobLocation" name="jobLocation" placeholder="Job Location" required><br><br>
+            <label> Salary Range (Optional)</label>
+            <input type="text" id="salary_range" name="salary_range" placeholder="Salary Range e.g. 1000-1500"><br><br>
+            <label> Job Type</label><br>
+            <input type = "number" id = "jobType" name = "jobType" required><br><br>
+
+            <button type = "submit">Post Job</button>
+            <button type = "reset">Reset</button><br><br>
+        </form>
+    </div>
 </body>
 
 </html>
