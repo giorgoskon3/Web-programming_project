@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', controller.showHome);
 router.get('/job-seeker', controller.showJobSeeker);
 router.get('/job-seeker/jobSearch', controller.showJobSearch);
-router.get('/job-seeker/jobSearch/results', controller.searchJobs);
+// router.get('/job-seeker/jobSearch/results', controller.searchJobs);
 // router.get('/job-seeker/savedJobs', controller.showSavedJobs);
 
 router.get('/employer', controller.showEmployer);
