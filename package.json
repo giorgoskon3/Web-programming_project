@@ -1,0 +1,26 @@
+{
+  "name": "web-programming_project",
+  "version": "1.0.0",
+  "description": "Project title: Job Agency Application; Course: ECE_CK802 Internet Programming @ University of Patras",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmaniatakou/Web-programming_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmaniatakou/Web-programming_project/issues"
+  },
+  "homepage": "https://github.com/nmaniatakou/Web-programming_project#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "nodemon": "^3.1.10"
+  }
+}

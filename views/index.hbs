@@ -1,13 +1,13 @@
-<h1 class="mainTitle">Job Agency Application</h1>
-
+<header>
+    <h1 class="mainTitle">{{appName}}</h1>
 <nav class="navbar">
     <ul class="nav-links">
-        <li><a href="/">Main Page</a></li>
-        <li><a href="/job-seeker">Job Seeker</a></li>
-        <li><a href="/employer">Employer</a></li>
-        <li><a href="/communicate">Communicate</a></li>
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
     </ul>
 </nav>
+</header>
 
 <div class="form-container">
     <!-- login -->
@@ -46,6 +46,11 @@
                     <input type="text" id="reg-surname" name="lastname" placeholder="Surname">
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="reg-username">Username</label><br>
+                <input type="username" id="reg-username" name="username" placeholder="Username">
+            </div><br>
 
             <div class="form-group">
                 <label for="reg-email">Email</label><br>
