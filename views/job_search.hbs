@@ -1,0 +1,30 @@
+<header>
+    <h1 class="mainTitle">{{appName}}</h1>
+    <nav class="navbar">
+        <ul class="nav-links">
+            {{#each navLinks}}
+            <li><a href="{{href}}">{{text}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</header>
+
+<div class="search-container">
+    <form id="filterForm" class="filters" method="get" action="/job-seeker/results">
+        <input type="text" id="title" placeholder="Job Title" />
+        <input type="text" id="location" placeholder="Location" />
+        <select id="type">
+            <option value="">All Types</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Remote">Remote</option>
+            <option value="Internship">Internship</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="jobs-container" id="jobList">
+        <!-- Filtered job cards appear here -->
+    </div>
+
+</div>

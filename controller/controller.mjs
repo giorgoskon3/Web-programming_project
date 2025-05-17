@@ -35,8 +35,8 @@ export function showJobSeeker(req, res) {
             {
                 title: 'Job Opportunities',
                 buttons: [
-                    { label: 'Job Search', href: '/jobSearch', id: 'jobSearch' },
-                    { label: 'Saved Jobs', href: '/savedJobs', id: 'savedJobs' }
+                    { label: 'Job Search', href: '/job-seeker/jobSearch', id: 'jobSearch' },
+                    { label: 'Saved Jobs', href: '/job-seeker/savedJobs', id: 'savedJobs' }
                 ]
             }
         ]
@@ -98,4 +98,18 @@ export function showCommunicate(req, res) {
             { href: '/communicate', text: 'Communicate' }
         ],
     });
+}
+
+export function showJobSearch(req, res) {
+  res.render('job_search', {
+    title: 'Search Jobs',
+    css: ['styles.css', 'job_search.css'],
+    appName: 'Job Agency Application',
+    navLinks: [
+      { href: '/', text: 'Home' },
+      { href: '/job-seeker', text: 'Job Seeker' },
+      { href: '/employer', text: 'Employer' },
+      { href: '/communicate', text: 'Communicate' }
+    ]
+  });
 }
