@@ -1,79 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+<h1 class="mainTitle">Job Agency Application</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Agency Application - Team 14</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="assets/js/script.js" defer></script>
-</head>
+<nav class="navbar">
+    <ul class="nav-links">
+        <li><a href="/">Main Page</a></li>
+        <li><a href="/job-seeker">Job Seeker</a></li>
+        <li><a href="/employer">Employer</a></li>
+        <li><a href="/communicate">Communicate</a></li>
+    </ul>
+</nav>
 
-<body>
-    <header>
-        <h1 class="mainTitle">Job Agency Application</h1>
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li><a href="index.html">Main Page</a></li>
-                <li><a href="job_seeker.html">Job Seeker</a></li>
-                <li><a href="employer.html">Employer</a></li>
-                <li><a href="communicate.html">Communicate</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="form-container">
+    <!-- login -->
+    <br>
+    <form id="login-form" method="post" action="/login">
+        <fieldset>
+            <legend>Log in</legend>
+            <div class="form-group">
+                <label for="login-name">Username</label><br>
+                <input type="text" id="login-name" name="name" placeholder="Username">
+            </div><br>
 
-    <div class="form-container">
-        <!-- login -->
-        <br>
-        <form id="login-form" method="post">
-            <fieldset>
-                <legend>Log in</legend>
+            <div class="form-group">
+                <label for="login-password">Password</label><br>
+                <input type="password" id="login-password" name="password" placeholder="Password">
+            </div>
+
+            <div>
+                <input type="submit" value="Log In">
+            </div><br>
+        </fieldset>
+    </form><br>
+
+    <!-- register -->
+    <form id="register-form" method="post" action="/register">
+        <fieldset>
+            <legend>Register</legend>
+            <div class="row">
                 <div class="form-group">
-                    <label for="name">Username</label><br>
-                    <input type="text" id="fname" name="name" placeholder="Username">
-                </div><br>
-
-                <div class="form-group">
-                    <label for="password">Password</label><br>
-                    <input type="password" id="password" name="password" placeholder="Password">
-
-                    <div>
-                        <input type="submit" value="Log In">
-                    </div><br>
-            </fieldset>
-        </form><br>
-
-        <!-- register -->
-        <form id="register-form" method="post">
-            <fieldset>
-                <legend>Register</legend>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="name">Name</label><br>
-                        <input type="text" id="fname" name="name" placeholder="Name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lastname">Surname</label><br>
-                        <input type="text" id="lname" name="lastname" placeholder="Surname">
-                    </div>
+                    <label for="reg-name">Name</label><br>
+                    <input type="text" id="reg-name" name="name" placeholder="Name">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label><br>
-                    <input type="email" id="email" name="email" placeholder="Email">
-                </div><br>
-
-                <div class="form-group">
-                    <label for="password">Password</label><br>
-                    <input type="password" id="password" password="Password" placeholder="Password">
-                </div><br>
-
-                <div>
-                    <input type="submit" value="Register">
+                    <label for="reg-surname">Surname</label><br>
+                    <input type="text" id="reg-surname" name="lastname" placeholder="Surname">
                 </div>
-        </form>
-    </div>
-</body>
+            </div>
 
-</html>
+            <div class="form-group">
+                <label for="reg-email">Email</label><br>
+                <input type="email" id="reg-email" name="email" placeholder="Email">
+            </div><br>
+
+            <div class="form-group">
+                <label for="reg-password">Password</label><br>
+                <input type="password" id="reg-password" name="password" placeholder="Password">
+            </div><br>
+
+            <div>
+                <input type="submit" value="Register">
+            </div>
+        </fieldset>
+    </form>
+</div>
