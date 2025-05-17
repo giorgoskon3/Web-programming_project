@@ -1,0 +1,21 @@
+<header>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
+</header>
+
+<section class="container" id="job-seeker">
+  {{#each cards}}
+  <div class="card">
+    <h2>{{title}}</h2>
+    {{#each buttons}}
+    <a href="{{href}}" class="button" id="{{id}}">{{label}}</a>
+    {{/each}}
+  </div>
+  {{/each}}
+</section>
