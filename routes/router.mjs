@@ -7,9 +7,13 @@ router.get('/', controller.showHome);
 router.get('/job-seeker', controller.showJobSeeker);
 router.get('/job-seeker/jobSearch', controller.showJobSearch);
 // router.get('/job-seeker/jobSearch/results', controller.searchJobs);
-// router.get('/job-seeker/savedJobs', controller.showSavedJobs);
+router.get('/job-seeker/savedJobs', controller.showSavedJobs);
 
 router.get('/employer', controller.showEmployer);
+router.get('/employer/postNewJob', controller.showPostNewJob);
+router.get('/employer/postManagement', controller.showPostManagement);
+router.get('/employer/editCompanyProfile', controller.showEditCompanyProfile);
+router.get('/employer/editCompanyProfile', controller.showEditCompanyProfile);
 router.get('/communicate', controller.showCommunicate);
 
 export default router;

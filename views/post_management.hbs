@@ -1,0 +1,26 @@
+<header>
+    <h1 class="mainTitle">{{appName}}</h1>
+    <nav class="navbar">
+        <ul class="nav-links">
+            {{#each navLinks}}
+            <li><a href="{{href}}">{{text}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</header>
+
+<div class="jobs-container">
+    <h1>Posted Jobs</h1>
+    <div class="job-card">
+        <div class="job-info">
+            <h2>Test Frontend Developer</h2>
+            <p><strong>Company:</strong> CodeLabs</p>
+            <p><strong>Location:</strong> Remote</p>
+            <p><strong>Date Posted:</strong> April 29, 2025</p>
+            <p><strong>Description:</strong> Build beautiful UIs with React.</p>
+        </div>
+        <div class="job-actions">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+        </div>
+    </div>
