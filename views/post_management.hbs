@@ -12,6 +12,19 @@
 <div class="jobs-container">
   <h1>Posted Jobs</h1>
 
+  <form method="GET" action="/employer/postManagement" class="job-filter-form">
+    <input type="text" name="title" placeholder="Job Title" value="{{query.title}}">
+    <input type="text" name="location" placeholder="Location" value="{{query.location}}">
+    <select name="type_id">
+      <option value="">All Types</option>
+      {{#each types}}
+      <option value="{{id}}" {{#ifEquals ../query.type_id id}}selected{{/ifEquals}}>{{name}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+
   {{#each jobs}}
   <div class="job-card">
     <div class="job-info">
