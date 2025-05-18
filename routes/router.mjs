@@ -1,20 +1,25 @@
 import express from 'express';
-import * as controller from '../controller/controller.mjs';
+import controller from '../controller/index_controller.mjs';
 
 const router = express.Router();
 
+// Home Route
 router.get('/', controller.showHome);
-router.get('/job-seeker', controller.showJobSeeker);
-router.get('/job-seeker/jobSearch', controller.showJobSearch);
-// router.get('/job-seeker/jobSearch/results', controller.searchJobs);
-router.get('/job-seeker/savedJobs', controller.showSavedJobs);
 
-router.get('/employer', controller.showEmployer);
-router.get('/employer/showPostNewJob', controller.showPostNewJob);
-router.post('/employer/showPostNewJob/postNewJob', controller.postNewJob);
-router.get('/employer/postManagement', controller.showPostManagement);
-router.get('/employer/editCompanyProfile', controller.showEditCompanyProfile);
-router.get('/employer/editCompanyProfile', controller.showEditCompanyProfile);
-router.get('/communicate', controller.showCommunicate);
+// Job Seeker Routes
+router.get('/job-seeker', controller.jobSeeker.showJobSeeker);
+router.get('/job-seeker/jobSearch', controller.jobSeeker.showJobSearch);
+// router.get('/job-seeker/jobSearch/results', controller.searchJobs);
+router.get('/job-seeker/savedJobs', controller.jobSeeker.showSavedJobs);
+
+// Employer Routes
+router.get('/employer', controller.employer.showEmployer);
+router.get('/employer/showPostNewJob', controller.employer.showPostNewJob);
+router.post('/employer/showPostNewJob/postNewJob', controller.employer.postNewJob);
+router.get('/employer/postManagement', controller.employer.showPostManagement);
+router.get('/employer/editCompanyProfile', controller.employer.showEditCompanyProfile);
+
+// Communication Routes
+router.get('/communicate', controller.communicate.showCommunicate);
 
 export default router;

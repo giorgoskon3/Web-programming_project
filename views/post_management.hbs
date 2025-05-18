@@ -1,12 +1,12 @@
 <header>
-    <h1 class="mainTitle">{{appName}}</h1>
-    <nav class="navbar">
-        <ul class="nav-links">
-            {{#each navLinks}}
-            <li><a href="{{href}}">{{text}}</a></li>
-            {{/each}}
-        </ul>
-    </nav>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
 </header>
 
 <div class="jobs-container">
@@ -22,8 +22,9 @@
       <p><strong>Description:</strong> {{description}}</p>
     </div>
     <div class="job-actions">
-      <a href="/employer/edit/{{id}}" class="edit-btn">Edit</a>
-      <form method="post" action="/employer/delete/{{id}}" style="display:inline;">
+      <form method="post" action="/employer/delete/{{id}}"
+        onsubmit="return confirm('Are you sure you want to delete this job?');">
+        <a href="/employer/edit/{{id}}" class="edit-btn">Edit</a>
         <button type="submit" class="delete-btn">Delete</button>
       </form>
     </div>
