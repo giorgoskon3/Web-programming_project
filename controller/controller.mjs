@@ -1,103 +1,105 @@
+const model = await import(`../model/model-bettersqlite3.mjs`);
+
 export function showHome(req, res) {
-    res.render('index', {
-        title: 'Job Agency Application',
-        appName: 'Job Agency Application',
-        css: ['styles.css'],
-        navLinks: [
-            { href: '/', text: 'Home' },
-            { href: '/job-seeker', text: 'Job Seeker' },
-            { href: '/employer', text: 'Employer' },
-            { href: '/communicate', text: 'Communicate' }
-        ]
-    });
+  res.render('index', {
+    title: 'Job Agency Application',
+    appName: 'Job Agency Application',
+    css: ['styles.css'],
+    navLinks: [
+      { href: '/', text: 'Home' },
+      { href: '/job-seeker', text: 'Job Seeker' },
+      { href: '/employer', text: 'Employer' },
+      { href: '/communicate', text: 'Communicate' }
+    ]
+  });
 }
 
 export function showJobSeeker(req, res) {
-    res.render('job_seeker', {
-        title: 'Job Seeker',
-        css: ['styles.css', 'job_seeker.css'],
-        appName: 'Job Agency Application',
-        navLinks: [
-            { href: '/', text: 'Home' },
-            { href: '/job-seeker', text: 'Job Seeker' },
-            { href: '/employer', text: 'Employer' },
-            { href: '/communicate', text: 'Communicate' }
-        ],
-        cards: [
-            {
-                title: 'My Profile',
-                buttons: [
-                    { label: 'Edit Profile', href: '/job-seeker/editProfile', id: 'editProfile' },
-                    { label: 'Upload Resume', href: '/job-seeker/uploadResume', id: 'uploadResume' },
-                    { label: 'Recommended Jobs', href: '/job-seeker/recommendedJobs', id: 'recommendedJobs' }
-                ]
-            },
-            {
-                title: 'Job Opportunities',
-                buttons: [
-                    { label: 'Job Search', href: '/job-seeker/jobSearch', id: 'jobSearch' },
-                    { label: 'Saved Jobs', href: '/job-seeker/savedJobs', id: 'savedJobs' }
-                ]
-            }
+  res.render('job_seeker', {
+    title: 'Job Seeker',
+    css: ['styles.css', 'job_seeker.css'],
+    appName: 'Job Agency Application',
+    navLinks: [
+      { href: '/', text: 'Home' },
+      { href: '/job-seeker', text: 'Job Seeker' },
+      { href: '/employer', text: 'Employer' },
+      { href: '/communicate', text: 'Communicate' }
+    ],
+    cards: [
+      {
+        title: 'My Profile',
+        buttons: [
+          { label: 'Edit Profile', href: '/job-seeker/editProfile', id: 'editProfile' },
+          { label: 'Upload Resume', href: '/job-seeker/uploadResume', id: 'uploadResume' },
+          { label: 'Recommended Jobs', href: '/job-seeker/recommendedJobs', id: 'recommendedJobs' }
         ]
-    });
+      },
+      {
+        title: 'Job Opportunities',
+        buttons: [
+          { label: 'Job Search', href: '/job-seeker/jobSearch', id: 'jobSearch' },
+          { label: 'Saved Jobs', href: '/job-seeker/savedJobs', id: 'savedJobs' }
+        ]
+      }
+    ]
+  });
 }
 
 
 export function showEmployer(req, res) {
-    res.render('employer', {
-        title: 'Employer',
-        css: ['styles.css', 'employer.css'],
-        appName: 'Job Agency Application',
-        navLinks: [
-            { href: '/', text: 'Home' },
-            { href: '/job-seeker', text: 'Job Seeker' },
-            { href: '/employer', text: 'Employer' },
-            { href: '/communicate', text: 'Communicate' }
-        ],
-        cards: [
-            {
-                title: 'Job Management',
-                buttons: [
-                    { label: 'Post New Job', href: '/employer/postNewJob', id: 'postNewJob' },
-                    { label: 'Post Management', href: '/employer/postManagement', id: 'postManagement' },
-                ]
-            },
-            {
-                title: 'Candidate Management',
-                buttons: [
-                    { label: 'CV Search', href: '/employer/cv_search', id: 'cv_search' },
-                    { label: 'Saved Candidates', href: '/employer/savedCandidates', id: 'savedCandidates' }
-                ]
-            },
-            {
-                title: 'Interview Management',
-                buttons: [
-                    { label: 'Interview Management', href: '/employer/interview', id: 'interview' }
-                ]
-            },
-            {
-                title: 'Company Profile',
-                buttons: [
-                    { label: 'Edit Company Profile', href: '/employer/editCompanyProfile', id: 'editCompanyProfile' }                ]
-            }
+  res.render('employer', {
+    title: 'Employer',
+    css: ['styles.css', 'employer.css'],
+    appName: 'Job Agency Application',
+    navLinks: [
+      { href: '/', text: 'Home' },
+      { href: '/job-seeker', text: 'Job Seeker' },
+      { href: '/employer', text: 'Employer' },
+      { href: '/communicate', text: 'Communicate' }
+    ],
+    cards: [
+      {
+        title: 'Job Management',
+        buttons: [
+          { label: 'Post New Job', href: '/employer/showPostNewJob', id: 'showPostNewJob' },
+          { label: 'Post Management', href: '/employer/postManagement', id: 'postManagement' },
         ]
-    });
+      },
+      {
+        title: 'Candidate Management',
+        buttons: [
+          { label: 'CV Search', href: '/employer/cv_search', id: 'cv_search' },
+          { label: 'Saved Candidates', href: '/employer/savedCandidates', id: 'savedCandidates' }
+        ]
+      },
+      {
+        title: 'Interview Management',
+        buttons: [
+          { label: 'Interview Management', href: '/employer/interview', id: 'interview' }
+        ]
+      },
+      {
+        title: 'Company Profile',
+        buttons: [
+          { label: 'Edit Company Profile', href: '/employer/editCompanyProfile', id: 'editCompanyProfile' }]
+      }
+    ]
+  });
 }
 
 export function showCommunicate(req, res) {
-    res.render('communicate', {
-        title: 'Communicate',
-        css: ['styles.css', 'communicate.css'],
-        appName: 'Job Agency Application',
-        contactTitle: 'Contact Us',
-        navLinks: [
-            { href: '/', text: 'Home' },
-            { href: '/job-seeker', text: 'Job Seeker' },
-            { href: '/employer', text: 'Employer' },
-            { href: '/communicate', text: 'Communicate' }
-        ],
-    });
+  res.render('communicate', {
+    title: 'Communicate',
+    css: ['styles.css', 'communicate.css'],
+    appName: 'Job Agency Application',
+    contactTitle: 'Contact Us',
+    navLinks: [
+      { href: '/', text: 'Home' },
+      { href: '/job-seeker', text: 'Job Seeker' },
+      { href: '/employer', text: 'Employer' },
+      { href: '/communicate', text: 'Communicate' }
+    ],
+  });
 }
 
 export function showJobSearch(req, res) {
@@ -129,24 +131,55 @@ export function showSavedJobs(req, res) {
 }
 
 export function showPostNewJob(req, res) {
-  res.render('post_new_job', {
-    title: 'Post New Job',
-    css: ['styles.css', 'post_new_job.css'],
-    appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
-  });
+  try {
+    // const types = model.getJobTypes();
+
+    res.render('post_new_job', {
+      title: 'Post New Job',
+      css: ['styles.css', 'post_new_job.css'],
+      appName: 'Job Agency Application',
+      // types,
+      navLinks: [
+        { href: '/', text: 'Home' },
+        { href: '/job-seeker', text: 'Job Seeker' },
+        { href: '/employer', text: 'Employer' },
+        { href: '/communicate', text: 'Communicate' }
+      ]
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Σφάλμα φόρτωσης φόρμας αγγελίας');
+  }
 }
 
-export function showPostManagement(req, res) {
+export async function postNewJob(req, res) {
+  try {
+    const newJob = {
+      title: req.body.title,
+      description: req.body.description,
+      location: req.body.location,
+      salary_range: req.body.salary_range,
+      type_id: req.body.type_id,
+      user_id: req.body.user_id
+    };
+
+    const result = await model.postNewJob(newJob);
+    res.redirect('/employer/postManagement');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Αποτυχία καταχώρησης αγγελίας');
+  }
+}
+
+
+export function showPostManagement(req, res, next) {
+  const jobs = model.getPostedJobs();
   res.render('post_management', {
     title: 'Post Management',
     css: ['styles.css', 'post_management.css'],
     appName: 'Job Agency Application',
+    jobs: jobs,
     navLinks: [
       { href: '/', text: 'Home' },
       { href: '/job-seeker', text: 'Job Seeker' },

@@ -10,17 +10,25 @@
 </header>
 
 <div class="jobs-container">
-    <h1>Posted Jobs</h1>
-    <div class="job-card">
-        <div class="job-info">
-            <h2>Test Frontend Developer</h2>
-            <p><strong>Company:</strong> CodeLabs</p>
-            <p><strong>Location:</strong> Remote</p>
-            <p><strong>Date Posted:</strong> April 29, 2025</p>
-            <p><strong>Description:</strong> Build beautiful UIs with React.</p>
-        </div>
-        <div class="job-actions">
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-        </div>
+  <h1>Posted Jobs</h1>
+
+  {{#each jobs}}
+  <div class="job-card">
+    <div class="job-info">
+      <h2>{{title}}</h2>
+      <p><strong>Company:</strong> {{company}}</p>
+      <p><strong>Location:</strong> {{location}}</p>
+      <p><strong>Date Posted:</strong> {{postedDate}}</p>
+      <p><strong>Description:</strong> {{description}}</p>
     </div>
+    <div class="job-actions">
+      <a href="/employer/edit/{{id}}" class="edit-btn">Edit</a>
+      <form method="post" action="/employer/delete/{{id}}" style="display:inline;">
+        <button type="submit" class="delete-btn">Delete</button>
+      </form>
+    </div>
+  </div>
+  {{else}}
+  <p>No jobs found</p>
+  {{/each}}
+</div>

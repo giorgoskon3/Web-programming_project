@@ -10,21 +10,33 @@
 </header>
 
 <div class="container">
-    <h1>Post a Job</h1>
-    <form id="jobForm">
-        <label> Job Title</label>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" required><br><br>
-        <label> Job Description</label><br>
-        <textarea id="jobDescription" name="jobDescription" rows="4" cols="50" placeholder="Job Description"
-            required></textarea><br><br>
-        <label> Job Location</label>
-        <input type="text" id="jobLocation" name="jobLocation" placeholder="Job Location" required><br><br>
-        <label> Salary Range (Optional)</label>
-        <input type="text" id="salary_range" name="salary_range" placeholder="Salary Range e.g. 1000-1500"><br><br>
-        <label> Job Type</label><br>
-        <input type="number" id="jobType" name="jobType" required><br><br>
+    <h1>Post New Job</h1>
+    <form id="jobForm" method="post" action="/employer/showPostNewJob/postNewJob">
+        <label>Job Title</label>
+        <input type="text" name="title" placeholder="Job Title (required)" required><br><br>
+
+        <label>Job Description</label><br>
+        <textarea name="description" rows="4" cols="50" placeholder="Job Description (required)" required></textarea><br><br>
+
+        <label>Job Location</label>
+        <input type="text" name="location" placeholder="Job Location (required)" required><br><br>
+
+        <label>Salary Range (Optional)</label>
+        <input type="text" name="salary_range" placeholder="e.g. 1000-1500"><br><br>
+
+        <label>Job Type (type_id)</label><br>
+        <input type="number" name="type_id" required><br><br>
+
+        <!-- Προσθέτουμε προκαθορισμένα ή hidden πεδία για test -->
+        <input type="hidden" name="work_style" value="On-site">
+        <input type="hidden" name="required_skills" value="None">
+        <input type="hidden" name="benefits" value="Standard">
+        <input type="hidden" name="status" value="Open">
+        <input type="hidden" name="user_id" value="1">
+        <input type="hidden" name="company_id" value="1">
 
         <button type="submit">Post Job</button>
         <button type="reset">Reset</button><br><br>
     </form>
+
 </div>

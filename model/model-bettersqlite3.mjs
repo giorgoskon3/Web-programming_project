@@ -1,67 +1,40 @@
-/*
-uses better-sqlite3 module
-npm install better-sqlite3
-*/
+// model/model-bettersqlite3.mjs
+
 import { default as bettersqlite3 } from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Για να υπολογίσουμε __dirname σε ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('Using better-sqlite3 module');
 
-const db = new bettersqlite3(`${import.meta.dirname}/../data/books.db`, { fileMustExist: true });
+// Δημιουργία σύνδεσης με SQLite βάση δεδομένων
+const db = new bettersqlite3(path.join(__dirname, '../data/sqlite-database.db'), { fileMustExist: true });
 
-
-const getBooks = () => {
+// Συνάρτηση: επιστροφή όλων των καταχωρήσεων στον πίνακα JOB
+const getPostedJobs = () => {
    try {
-
-      const getBooksStm = db.prepare('SELECT * FROM Books ORDER BY title');
-
-      return getBooksStm.all();
+      const stmt = db.prepare('SELECT * FROM JOB');
+      return stmt.all();
    } catch (err) {
       throw err;
    }
 };
 
-const addBook = (book) => {
+const postNewJob = (newJob) => {
    try {
-      const addBookStm = db.prepare('INSERT INTO Books (title, author, comment, user)  VALUES (?, ?, ?, ?)');
-      const result = addBookStm.run(book.title, book.author, book.comment, book.user);
+      const addNewJobStm = db.prepare('INSERT INTO JOB (title, description, location, salary_range, type_id, user_id, status)  VALUES (?, ?, ?, ?, ?, ?, ?)');
+      const result = addNewJobStm.run(newJob.title, newJob.description, newJob.location, newJob.salary_range, newJob.type_id, newJob.user_id, 'open');
+      console.log('Εισάγεται η νέα δουλειά:', addNewJobStm);
       return result;
    } catch (err) {
       throw err;
    }
 };
 
-const deleteBook = (bookID) => {
-   try {
-      const deleteBookStm = db.prepare('DELETE FROM Books WHERE bookID = ?');
-      const result = deleteBookStm.run(bookID);
-      return result;
-   } catch (err) {
-      throw err;
-   }
-};
-
-const getBook = (bookID) => {
-   try {
-      const getBookStm = db.prepare('SELECT * FROM Books WHERE bookID = ?');
-
-      const row = getBookStm.all(bookID);
-      return row[0];
-   } catch (err) {
-      throw err;
-   }
-};
-
-const editBook = (book) => {
-   try {
-      const editBookStm = db.prepare('UPDATE Books SET title = ?, author = ?, comment = ? WHERE (bookID = ?)');
-
-      const result = editBookStm.run(book.title, book.author, book.comment, book.bookID);
-      return result;
-   } catch (err) {
-      throw err;
-   }
-};
-
+// Συνάρτηση: κλείσιμο της βάσης
 function shutdown() {
    try {
       db.close();
@@ -71,4 +44,4 @@ function shutdown() {
    }
 }
 
-export { getBooks, addBook, getBook, editBook, deleteBook, shutdown };
+export { getPostedJobs, postNewJob, shutdown };
