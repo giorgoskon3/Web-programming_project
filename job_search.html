@@ -28,22 +28,48 @@
     <form id="filterForm" class="filters">
       <input type="text" id="title" placeholder="Job Title" />
       <input type="text" id="location" placeholder="Location" />
+
       <select id="type">
         <option value="">All Types</option>
         <option value="Full-time">Full-time</option>
         <option value="Part-time">Part-time</option>
-        <option value="Remote">Remote</option>
         <option value="Internship">Internship</option>
+        <option value="Freelance">Freelance</option>
       </select>
+
+      <select id="level">
+        <option value="">All Levels</option>
+        <option value="Entry">Entry</option>
+        <option value="Mid">Mid</option>
+        <option value="Senior">Senior</option>
+        <option value="Lead">Lead</option>
+      </select>
+
+      <select id="workStyle">
+        <option value="">Work Style</option>
+        <option value="On-site">On-site</option>
+        <option value="Hybrid">Hybrid</option>
+        <option value="Remote">Remote</option>
+      </select>
+
+      <select id="benefits">
+        <option value="">Benefits</option>
+        <option value="Health Insurance">Health Insurance</option>
+        <option value="Paid Time Off">Paid Time Off</option>
+        <option value="Flexible Hours">Flexible Hours</option>
+        <option value="Retirement Plan">Retirement Plan</option>
+      </select>
+
+      <input type="text" id="skills" placeholder="Required Skills (e.g. JavaScript)" />
+      <input type="text" id="salary" placeholder="Minimum Salary ($)" />
+
       <button type="submit">Search</button>
     </form>
 
     <div class="jobs-container" id="jobList">
       <!-- Filtered job cards appear here -->
     </div>
-
   </div>
   
 </body>
-
 </html>
