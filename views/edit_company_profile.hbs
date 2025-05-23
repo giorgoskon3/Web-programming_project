@@ -1,0 +1,26 @@
+<header>
+    <h1 class="mainTitle">{{appName}}</h1>
+    <nav class="navbar">
+        <ul class="nav-links">
+            {{#each navLinks}}
+            <li><a href="{{href}}">{{text}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Edit Company Profile</h1>
+    <form id="companyForm">
+        <label>Company Name</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Company Name (required)" required>
+
+        <label>Description</label>
+        <textarea id="description" name="description" placeholder="Description"></textarea>
+
+        <label>Location</label>
+        <input type="text" id="location" name="location" placeholder="Location">
+
+        <button type="submit">Save Changes</button>
+    </form>
+</div>

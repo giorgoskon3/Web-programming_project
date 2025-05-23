@@ -13,6 +13,7 @@ app.set('views', './views');
 // Static files (CSS, JS)
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Use routes
 app.use('/', router);

@@ -1,0 +1,47 @@
+<header>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
+</header>
+
+<div class="jobs-container">
+  <h1>Posted Jobs</h1>
+
+  <form method="GET" action="/employer/postManagement" class="job-filter-form">
+    <input type="text" name="title" placeholder="Job Title" value="{{query.title}}">
+    <input type="text" name="location" placeholder="Location" value="{{query.location}}">
+    <select name="type_id">
+      <option value="">All Types</option>
+      {{#each types}}
+      <option value="{{id}}" {{#ifEquals ../query.type_id id}}selected{{/ifEquals}}>{{name}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  {{#each jobs}}
+  <div class="job-card">
+    <div class="job-info">
+      <h2>{{title}}</h2>
+      <p><strong>Company:</strong> {{company}}</p>
+      <p><strong>Location:</strong> {{location}}</p>
+      <p><strong>Date Posted:</strong> {{postedDate}}</p>
+      <p><strong>Description:</strong> {{description}}</p>
+    </div>
+    <div class="job-actions">
+      <form method="post" action="/employer/delete/{{id}}"
+        onsubmit="return confirm('Are you sure you want to delete this job?');">
+        <a href="/employer/edit/{{id}}" class="edit-btn">Edit</a>
+        <button type="submit" class="delete-btn">Delete</button>
+      </form>
+    </div>
+  </div>
+  {{else}}
+  <p>No jobs found</p>
+  {{/each}}
+</div>
