@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/saved_jobs.css" />
+  <script src="/assets/js/script.js" defer></script>
+  <script src="/assets/js/saved_jobs.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1 class="mainTitle">Job Agency Application</h1>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="/">Main Page</a></li>
+        <li><a href="/job_seeker">Job Seeker</a></li>
+        <li><a href="/employer">Employer</a></li>
+        <li><a href="/communicate">Communicate</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="jobs-container">
+    <h1>Saved Jobs</h1>
+
+    {{#each savedJobs}}
+    <div class="job-card">
+      <div class="job-info">
+        <h2>{{title}}</h2>
+        <p><strong>Company:</strong> {{company}}</p>
+        <p><strong>Location:</strong> {{location}}</p>
+        <p><strong>Type:</strong> {{type}}</p>
+        <p><strong>Date Saved:</strong> {{dateSaved}}</p>
+        <p><strong>Description:</strong> {{description}}</p>
+      </div>
+
+      <div class="job-actions">
+        <button class="apply-btn">Apply</button>
+        <button class="remove-btn">Remove</button>
+      </div>
+    </div>
+    {{/each}}
+
+  </div>
+</body>
+</html>

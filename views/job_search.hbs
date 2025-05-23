@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/job_search.css" />
+  <script src="/assets/js/script.js" defer></script>
+  <script src="/assets/js/job_search.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1 class="mainTitle">Job Search</h1>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="/">Main Page</a></li>
+        <li><a href="/job_seeker">Job Seeker</a></li>
+        <li><a href="/employer">Employer</a></li>
+        <li><a href="/communicate">Communicate</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="search-container">
+    <form id="filterForm" class="filters">
+      <input type="text" id="title" placeholder="Job Title" />
+      <input type="text" id="location" placeholder="Location" />
+
+      <select id="type">
+        <option value="">All Types</option>
+        {{#each jobTypes}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <select id="level">
+        <option value="">All Levels</option>
+        {{#each jobLevels}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <select id="workStyle">
+        <option value="">Work Style</option>
+        {{#each workStyles}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <select id="benefits">
+        <option value="">Benefits</option>
+        {{#each benefits}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <input type="text" id="skills" placeholder="Required Skills (e.g. JavaScript)" />
+      <input type="text" id="salary" placeholder="Minimum Salary ($)" />
+
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="jobs-container" id="jobList">
+      {{!-- Here you can render job cards if needed --}}
+      {{#each jobs}}
+        <div class="job-card">
+          <h3>{{title}}</h3>
+          <p>{{location}} - {{type}}</p>
+          <p>{{level}} - {{workStyle}}</p>
+          <p>Skills: {{skills}}</p>
+          <p>Salary: ${{salary}}</p>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</body>
+</html>
