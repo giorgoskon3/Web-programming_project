@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 400px;
     margin: 50px auto;
     background: #fff;
@@ -10,12 +10,12 @@
     animation: fadeIn 1s ease-in-out;
 }
 
-h1{
+h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-form label{
+form label {
     display: block;
     margin-bottom: 15px;
     font-weight: bold;
@@ -23,7 +23,7 @@ form label{
 
 form input,
 form textarea,
-form select{
+form select {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -32,7 +32,7 @@ form select{
     border-radius: 4px;
 }
 
-form button{
+form button {
     margin-top: 20px;
     width: 100%;
     padding: 10px;
@@ -44,11 +44,18 @@ form button{
     cursor: pointer;
 }
 
-form button:hover{
+form button:hover {
     background: #218838;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

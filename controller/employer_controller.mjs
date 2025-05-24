@@ -142,13 +142,12 @@ export async function postNewJob(req, res) {
   }
 }
 
-
 export function showPostManagement(req, res, next) {
   const jobs = model.getPostedJobs();
   res.render('post_management', {
+    appName: 'Job Agency Application',
     title: 'Post Management',
     css: ['styles.css', 'post_management.css'],
-    appName: 'Job Agency Application',
     jobs: jobs,
     navLinks: [
       { href: '/', text: 'Home' },
@@ -159,16 +158,59 @@ export function showPostManagement(req, res, next) {
   });
 }
 
-export function showEditCompanyProfile(req, res) {
-  res.render('edit_company_profile', {
-    title: 'Edit Company Profile',
-    css: ['styles.css', 'edit_company_profile.css'],
-    appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
-  });
+export async function showEditJob(req, res) {
+  const jobId = req.params.jobId;
+  try {
+    const job = model.getJobById(jobId);
+    console.log('Job to edit:', job);
+    const types = model.getAllJobTypes();
+
+    res.render('edit_job', {
+      job: job,
+      types: types,
+      appName: 'Job Agency Application',
+      title: 'Edit Job',
+      css: ['styles.css', 'post_new_job.css'],
+      navLinks: [
+        { href: '/', text: 'Home' },
+        { href: '/job-seeker', text: 'Job Seeker' },
+        { href: '/employer', text: 'Employer' },
+        { href: '/communicate', text: 'Communicate' }
+      ]
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading edit page');
+  }
+}
+
+export async function editJob(req, res) {
+  const jobId = req.params.jobId;
+  const updatedJob = {
+    job_id: jobId,
+    title: req.body.title,
+    description: req.body.description,
+    location: req.body.location,
+    salary_range: req.body.salary_range,
+    type_id: req.body.type_id
+  };
+
+  try {
+    model.updateJob(jobId, updatedJob);
+    res.redirect('/employer/postManagement');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating job');
+  }
+}
+
+export function deleteJob(req, res) {
+  const jobId = req.params.jobId;
+  try {
+    model.deleteJob(jobId);
+    res.redirect('/employer/postManagement');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting job');
+  }
 }
