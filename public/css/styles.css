@@ -6,7 +6,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* HEADER */
 .mainTitle {
     font-size: 36px;
     font-weight: bold;
@@ -24,7 +23,6 @@ header {
     padding: 10px 0;
 }
 
-/* NAVIGATION */
 .navbar {
     background-color: #007bff;
     padding: 20px 0;
@@ -58,7 +56,6 @@ header {
     padding-right: 10px;
 }
 
-/* BUTTON GROUPS */
 .toggle-buttons {
     margin: 10px 0;
     animation: fadeIn 1s ease-in-out;
@@ -88,13 +85,13 @@ header {
     opacity: 0.8;
 }
 
-/* MAIN CONTAINER + CARDS */
 .container {
     display: flex;
     flex-direction: row;
     gap: 20px;
     padding: 20px;
     flex-wrap: wrap;
+    
 }
 
 .card {
@@ -124,7 +121,6 @@ textarea {
     resize: vertical;
 }
 
-/* FORMS */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -184,14 +180,12 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* FLEX ROWS */
 .row {
     display: flex;
     gap: 20px;
     margin-bottom: 15px;
 }
 
-/* RESPONSIVE */
 @media (max-width: 600px) {
     .row {
         flex-direction: column;
@@ -202,12 +196,12 @@ input[type="submit"]:hover {
     }
 }
 
-/* ANIMATION */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
