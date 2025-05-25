@@ -1,3 +1,4 @@
+import { navLinks } from "./index_controller.mjs";
 const model = await import(`../model/model-bettersqlite3.mjs`);
 
 export function showJobSeeker(req, res) {
@@ -5,12 +6,7 @@ export function showJobSeeker(req, res) {
     title: 'Job Seeker',
     css: ['styles.css', 'job_seeker.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
+    navLinks: navLinks,
     cards: [
       {
         title: 'My Profile',
@@ -36,12 +32,7 @@ export function showJobSearch(req, res) {
     title: 'Search Jobs',
     css: ['styles.css', 'job_search.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
+    navLinks: navLinks
   });
 }
 
@@ -50,11 +41,6 @@ export function showSavedJobs(req, res) {
     title: 'Saved Jobs',
     css: ['styles.css', 'saved_jobs.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
+    navLinks: navLinks
   });
 }

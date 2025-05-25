@@ -34,6 +34,26 @@ const postNewJob = (newJob) => {
    }
 };
 
+const getUserByUsername = (username) => {
+   try {
+      const stmt = db.prepare('SELECT * FROM USER WHERE username = ?');
+      return stmt.get(username);
+   } catch (err) {
+      throw err;
+   }
+}
+
+const createUser = (user) => {
+   try {
+      const addNewUserStm = db.prepare('INSERT INTO USER (firstName, lastName, username, email, password, location, phone, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+      const result = addNewUserStm.run(user.firstName, user.lastName, user.username, user.email, user.password, user.location, user.phone, user.role);
+      console.log('Εισάγεται ο νέος χρήστης:', addNewUserStm);
+      return result;
+   } catch (err) {
+      throw err;
+   }
+};
+
 // Συνάρτηση: κλείσιμο της βάσης
 function shutdown() {
    try {
@@ -44,4 +64,4 @@ function shutdown() {
    }
 }
 
-export { getPostedJobs, postNewJob, shutdown };
+export { getPostedJobs, postNewJob, getUserByUsername, createUser, shutdown };

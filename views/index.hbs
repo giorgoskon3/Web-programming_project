@@ -1,13 +1,18 @@
 <header>
     <h1 class="mainTitle">{{appName}}</h1>
-<nav class="navbar">
-    <ul class="nav-links">
-      {{#each navLinks}}
-      <li><a href="{{href}}">{{text}}</a></li>
-      {{/each}}
-    </ul>
-</nav>
+    <nav class="navbar">
+        <ul class="nav-links">
+            {{#each navLinks}}
+            <li><a href="{{href}}">{{text}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
 </header>
+
+{{#if user}}
+Welcome, {{user.firstName}}!
+<a href="/logout">Logout</a>
+{{/if}}
 
 <div class="form-container">
     <!-- login -->
@@ -17,7 +22,7 @@
             <legend>Log in</legend>
             <div class="form-group">
                 <label for="login-name">Username</label><br>
-                <input type="text" id="login-name" name="name" placeholder="Username">
+                <input type="text" id="login-name" name="username" placeholder="Username">
             </div><br>
 
             <div class="form-group">
@@ -31,40 +36,60 @@
         </fieldset>
     </form><br>
 
-    <!-- register -->
+    <!-- REGISTER -->
     <form id="register-form" method="post" action="/register">
         <fieldset>
             <legend>Register</legend>
+
             <div class="row">
                 <div class="form-group">
-                    <label for="reg-name">Name</label><br>
-                    <input type="text" id="reg-name" name="name" placeholder="Name">
+                    <label for="reg-name">First Name</label><br>
+                    <input type="text" id="reg-name" name="firstName" placeholder="First Name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="reg-surname">Surname</label><br>
-                    <input type="text" id="reg-surname" name="lastname" placeholder="Surname">
+                    <label for="reg-surname">Last Name</label><br>
+                    <input type="text" id="reg-surname" name="lastName" placeholder="Last Name" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="reg-username">Username</label><br>
-                <input type="username" id="reg-username" name="username" placeholder="Username">
+                <input type="text" id="reg-username" name="username" placeholder="Username" required>
             </div><br>
 
             <div class="form-group">
                 <label for="reg-email">Email</label><br>
-                <input type="email" id="reg-email" name="email" placeholder="Email">
+                <input type="email" id="reg-email" name="email" placeholder="Email" required>
             </div><br>
 
             <div class="form-group">
                 <label for="reg-password">Password</label><br>
-                <input type="password" id="reg-password" name="password" placeholder="Password">
+                <input type="password" id="reg-password" name="password" placeholder="Password" required>
             </div><br>
+
+            <div class="form-group">
+                <label for="reg-location">Location</label><br>
+                <input type="location" id="reg-location" name="location" placeholder="Location (optional)">
+            </div><br>
+
+            <div class="form-group">
+                <label for="reg-phone">Phone</label><br>
+                <input type="phone" id="reg-phone" name="phone" placeholder="Phone (optional)">
+            </div><br>
+
+            <div class="form-group">
+                <label for="reg-role">Register as:</label><br>
+                <select name="role" id="reg-role" required>
+                    <option value="job_seeker">Job Seeker</option>
+                    <option value="employer">Employer</option>
+                </select>
+            </div>
 
             <div>
                 <input type="submit" value="Register">
             </div>
         </fieldset>
     </form>
+
 </div>
