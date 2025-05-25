@@ -11,6 +11,9 @@
 
 {{#if user}}
 Welcome, {{user.firstName}}!
+{{#ifEquals user.role 'employer'}}
+<span>(Company: {{user.companyName}})</span>
+{{/ifEquals}}
 <a href="/logout">Logout</a>
 {{/if}}
 
@@ -85,6 +88,34 @@ Welcome, {{user.firstName}}!
                     <option value="employer">Employer</option>
                 </select>
             </div>
+            <br>
+
+            <div class="form-group">
+                <div id="company-field" style="display: none;">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" name="companyName" id="companyName" placeholder="Company Name" required>
+
+                    <label for="companyDesc">Company Description</label>
+                    <input type="text" name="companyDesc" id="companyDesc" placeholder="Company Description">
+
+                    <label for="companyLocation">Company Location</label>
+                    <input type="text" name="companyLocation" id="companyLocation" placeholder="Company Location">
+                </div>
+            </div>
+            <br>
+
+            <script>
+                function toggleCompanyField() {
+                    const role = document.getElementById('reg-role').value;
+                    const field = document.getElementById('company-field');
+                    field.style.display = (role === 'employer') ? 'block' : 'none';
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    toggleCompanyField();
+                    document.getElementById('reg-role').addEventListener('change', toggleCompanyField);
+                });
+            </script>
 
             <div>
                 <input type="submit" value="Register">

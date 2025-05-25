@@ -1,4 +1,4 @@
-import {navLinks} from '../controller/index_controller.mjs';
+import { navLinks } from '../controller/index_controller.mjs';
 const model = await import(`../model/model-bettersqlite3.mjs`);
 
 export function showJobSeeker(req, res) {
@@ -34,16 +34,7 @@ export function showJobSearch(req, res) {
     appName: 'Job Agency Application',
     navLinks: navLinks
   });
-}
-
-export function showSavedJobs(req, res) {
-  res.render('saved_jobs', {
-    title: 'Saved Jobs',
-    css: ['styles.css', 'saved_jobs.css'],
-    appName: 'Job Agency Application',
-    navLinks: navLinks
-  });
-}
+};
 
 export function showEmployer(req, res) {
   res.render('employer', {
@@ -118,14 +109,22 @@ export async function postNewJob(req, res) {
   }
 }
 
-
 export function showPostManagement(req, res, next) {
+  const employerId = req.session.user.id;
+  const { title, location, type_id } = req.query;
+
+  const types = model.getJobTypes();
+
+  const jobPosts = model.getPostsByEmployerWithFilters(employerId, { title, location, type_id });
+
   const jobs = model.getPostedJobs();
   res.render('post_management', {
     title: 'Post Management',
     css: ['styles.css', 'post_management.css'],
     appName: 'Job Agency Application',
-    jobs: jobs,
+    jobs: jobPosts,
+    types: types,
+    query: { title, location, type_id },
     navLinks: navLinks
   });
 }
@@ -137,4 +136,56 @@ export function showEditCompanyProfile(req, res) {
     appName: 'Job Agency Application',
     navLinks: navLinks
   });
+}
+
+export async function showEditJob(req, res) {
+  const jobId = req.params.jobId;
+  try {
+    const job = model.getJobById(jobId);
+    console.log('Job to edit:', job);
+    const types = model.getJobTypes();
+
+    res.render('edit_job', {
+      job: job,
+      types: types,
+      appName: 'Job Agency Application',
+      title: 'Edit Job',
+      css: ['styles.css', 'post_new_job.css'],
+      navLinks: navLinks
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading edit page');
+  }
+}
+
+export async function editJob(req, res) {
+  const jobId = req.params.jobId;
+  const updatedJob = {
+    job_id: jobId,
+    title: req.body.title,
+    description: req.body.description,
+    location: req.body.location,
+    salary_range: req.body.salary_range,
+    type_id: req.body.type_id
+  };
+
+  try {
+    model.updateJob(jobId, updatedJob);
+    res.redirect('/employer/postManagement');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating job');
+  }
+}
+
+export function deleteJob(req, res) {
+  const jobId = req.params.jobId;
+  try {
+    model.deleteJob(jobId);
+    res.redirect('/employer/postManagement');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting job');
+  }
 }

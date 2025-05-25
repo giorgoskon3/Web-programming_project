@@ -42,10 +42,6 @@ export async function doRegister(req, res) {
     }
     // Create a new user
     const newUser = model.createUser({ firstName, lastName, username, email, password: hashedPassword, location, phone, role });
-
-    // Optionally, you can log in the user after registration
-    //   req.session.user = newUser;
-
     res.redirect('/');
 }
 

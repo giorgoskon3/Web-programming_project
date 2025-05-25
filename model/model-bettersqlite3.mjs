@@ -54,6 +54,72 @@ const createUser = (user) => {
    }
 };
 
+function getPostsByEmployerWithFilters(employerId, filters) {
+  let sql = 'SELECT * FROM JOB WHERE user_id = ?';
+  const params = [employerId];
+
+  if (filters.title) {
+    sql += ' AND title LIKE ?';
+    params.push(`%${filters.title}%`);
+  }
+
+  if (filters.location) {
+    sql += ' AND location LIKE ?';
+    params.push(`%${filters.location}%`);
+  }
+
+  if (filters.type_id) {
+    sql += ' AND type_id = ?';
+    params.push(filters.type_id);
+  }
+
+  const stmt = db.prepare(sql);
+  return stmt.all(...params);
+}
+
+function getJobTypes() {
+  const stmt = db.prepare('SELECT * FROM TYPE');
+  return stmt.all();
+}
+
+function getJobById(id) {
+  const stmt = db.prepare('SELECT * FROM JOB WHERE job_id = ?');
+  return stmt.get(id);
+}
+
+const updateJob = (jobId, updatedJob) => {
+   try {
+      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, salary_range = ?, type_id = ? WHERE job_id = ?');
+      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.salary_range, updatedJob.type_id, jobId);
+      console.log('Ενημερώνεται η δουλειά:', updateJobStm);
+      return result;
+   } catch (err) {
+      throw err;
+   }
+};
+
+const deleteJob = (jobId) => {
+   try {
+      const deleteJobStm = db.prepare('DELETE FROM JOB WHERE job_id = ?');
+      const result = deleteJobStm.run(jobId);
+      console.log('Διαγράφεται η δουλειά:', deleteJobStm);
+      return result;
+   } catch (err) {
+      throw err;
+   }
+}
+
+function getCompanyByName(name) {
+  const stmt = db.prepare('SELECT * FROM COMPANY WHERE name = ?');
+  return stmt.get(name);
+}
+
+function createCompany({ name, location }) {
+  const stmt = db.prepare('INSERT INTO COMPANY (name, location) VALUES (?, ?)');
+  return stmt.run(name, location); // επιστρέφει { lastInsertRowid: ... }
+}
+
+
 // Συνάρτηση: κλείσιμο της βάσης
 function shutdown() {
    try {
@@ -64,4 +130,4 @@ function shutdown() {
    }
 }
 
-export { getPostedJobs, postNewJob, getUserByUsername, createUser, shutdown };
+export { getPostedJobs, postNewJob, getUserByUsername, createUser, getPostsByEmployerWithFilters, getJobTypes, getJobById, updateJob, deleteJob, getCompanyByName, createCompany, shutdown };

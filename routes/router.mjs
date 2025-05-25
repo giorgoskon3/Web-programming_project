@@ -17,6 +17,9 @@ router.get('/employer', controller.auth.checkAuthenticated, controller.auth.chec
 router.get('/employer/showPostNewJob', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'),  controller.employer.showPostNewJob);
 router.post('/employer/showPostNewJob/postNewJob', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'), controller.employer.postNewJob);
 router.get('/employer/postManagement', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'), controller.employer.showPostManagement);
+router.get('/employer/postManagement/editJob/:jobId', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'), controller.employer.showEditJob);
+router.post('/employer/postManagement/editJob/:jobId', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'), controller.employer.editJob);
+router.post('/employer/postManagement/deleteJob/:jobId', controller.employer.deleteJob);
 router.get('/employer/editCompanyProfile', controller.auth.checkAuthenticated, controller.auth.checkRole('employer'), controller.employer.showEditCompanyProfile);
 
 // Communication Routes

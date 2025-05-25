@@ -8,7 +8,13 @@ const app = express();
 const port = 3000;
 
 // Set view engine
-app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }));
+app.engine('hbs', exphbs.engine({
+   extname: '.hbs', defaultLayout: 'main', helpers: {
+      ifEquals: function (a, b, options) {
+         return a == b ? options.fn(this) : options.inverse(this);
+      }
+   }
+}));
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
@@ -30,13 +36,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.locals.user = req.session.user || null;
-  next();
+   res.locals.user = req.session.user || null;
+   next();
 });
 
 // Use routes
 app.use('/', router);
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+   console.log(`Server running on http://localhost:${port}`);
 });
