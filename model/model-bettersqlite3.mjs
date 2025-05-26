@@ -84,4 +84,6 @@ function shutdown() {
    }
 }
 
+
+export default db;
 export { getPostedJobs, postNewJob, updateJob, deleteJob, getJobById, getAllJobTypes, shutdown };
