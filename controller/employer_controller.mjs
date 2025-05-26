@@ -1,3 +1,4 @@
+import { navLinks } from '../controller/index_controller.mjs';
 const model = await import(`../model/model-bettersqlite3.mjs`);
 
 export function showJobSeeker(req, res) {
@@ -5,12 +6,7 @@ export function showJobSeeker(req, res) {
     title: 'Job Seeker',
     css: ['styles.css', 'job_seeker.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
+    navLinks: navLinks,
     cards: [
       {
         title: 'My Profile',
@@ -36,40 +32,16 @@ export function showJobSearch(req, res) {
     title: 'Search Jobs',
     css: ['styles.css', 'job_search.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
+    navLinks: navLinks
   });
-}
-
-export function showSavedJobs(req, res) {
-  res.render('saved_jobs', {
-    title: 'Saved Jobs',
-    css: ['styles.css', 'saved_jobs.css'],
-    appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
-  });
-}
+};
 
 export function showEmployer(req, res) {
   res.render('employer', {
     title: 'Employer',
     css: ['styles.css', 'employer.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
+    navLinks: navLinks,
     cards: [
       {
         title: 'Job Management',
@@ -109,12 +81,7 @@ export function showPostNewJob(req, res) {
       css: ['styles.css', 'post_new_job.css'],
       appName: 'Job Agency Application',
       // types,
-      navLinks: [
-        { href: '/', text: 'Home' },
-        { href: '/job-seeker', text: 'Job Seeker' },
-        { href: '/employer', text: 'Employer' },
-        { href: '/communicate', text: 'Communicate' }
-      ]
+      navLinks: navLinks
     });
   } catch (err) {
     console.error(err);
@@ -143,18 +110,32 @@ export async function postNewJob(req, res) {
 }
 
 export function showPostManagement(req, res, next) {
+  const employerId = req.session.user.id;
+  const { title, location, type_id } = req.query;
+
+  const types = model.getJobTypes();
+
+  const jobPosts = model.getPostsByEmployerWithFilters(employerId, { title, location, type_id });
+
   const jobs = model.getPostedJobs();
   res.render('post_management', {
     appName: 'Job Agency Application',
     title: 'Post Management',
     css: ['styles.css', 'post_management.css'],
-    jobs: jobs,
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ]
+    appName: 'Job Agency Application',
+    jobs: jobPosts,
+    types: types,
+    query: { title, location, type_id },
+    navLinks: navLinks
+  });
+}
+
+export function showEditCompanyProfile(req, res) {
+  res.render('edit_company_profile', {
+    title: 'Edit Company Profile',
+    css: ['styles.css', 'edit_company_profile.css'],
+    appName: 'Job Agency Application',
+    navLinks: navLinks
   });
 }
 
@@ -163,7 +144,7 @@ export async function showEditJob(req, res) {
   try {
     const job = model.getJobById(jobId);
     console.log('Job to edit:', job);
-    const types = model.getAllJobTypes();
+    const types = model.getJobTypes();
 
     res.render('edit_job', {
       job: job,
@@ -171,12 +152,7 @@ export async function showEditJob(req, res) {
       appName: 'Job Agency Application',
       title: 'Edit Job',
       css: ['styles.css', 'post_new_job.css'],
-      navLinks: [
-        { href: '/', text: 'Home' },
-        { href: '/job-seeker', text: 'Job Seeker' },
-        { href: '/employer', text: 'Employer' },
-        { href: '/communicate', text: 'Communicate' }
-      ]
+      navLinks: navLinks
     });
   } catch (err) {
     console.error(err);

@@ -5,12 +5,7 @@ export function showJobSeeker(req, res) {
     title: 'Job Seeker',
     css: ['styles.css', 'job_seeker.css'],
     appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
+    navLinks: navLinks,
     cards: [
       {
         title: 'My Profile',
