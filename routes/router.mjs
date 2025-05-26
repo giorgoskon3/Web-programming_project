@@ -3,14 +3,18 @@ import controller from '../controller/index_controller.mjs';
 
 const router = express.Router();
 
-// Home Route
+// Home
 router.get('/', controller.showHome);
 
 // Job Seeker Routes
 router.get('/job-seeker', controller.jobSeeker.showJobSeeker);
 router.get('/job-seeker/jobSearch', controller.jobSeeker.showJobSearch);
-// router.get('/job-seeker/jobSearch/results', controller.searchJobs);
 router.get('/job-seeker/savedJobs', controller.jobSeeker.showSavedJobs);
+router.post('/job-seeker/saveJob', controller.jobSeeker.saveJob);
+router.post('/job-seeker/savedJobs/remove/:jobId', controller.jobSeeker.removeSavedJob);
+
+
+
 
 // Employer Routes
 router.get('/employer', controller.employer.showEmployer);
