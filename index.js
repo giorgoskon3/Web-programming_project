@@ -18,7 +18,7 @@ app.engine('hbs', exphbs.engine({
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
-// // Middleware for session management
+// Middleware for session management
 app.use(expSession(sessionMiddleware));
 // Middleware to set userId in res.locals for templates
 app.use((req, res, next) => {

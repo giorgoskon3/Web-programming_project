@@ -11,9 +11,6 @@
 
 {{#if user}}
 Welcome, {{user.firstName}}!
-{{#ifEquals user.role 'employer'}}
-<span>(Company: {{user.companyName}})</span>
-{{/ifEquals}}
 <a href="/logout">Logout</a>
 {{/if}}
 
@@ -91,9 +88,16 @@ Welcome, {{user.firstName}}!
             <br>
 
             <div class="form-group">
+                <div id="cv-field" style="display: none;">
+                    <label for="cv">CV (optional)</label>
+                    <textarea id="cv" name="cv" placeholder="Paste your CV here..." rows="5" cols="40"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div id="company-field" style="display: none;">
                     <label for="companyName">Company Name</label>
-                    <input type="text" name="companyName" id="companyName" placeholder="Company Name" required>
+                    <input type="text" name="companyName" id="companyName" placeholder="Company Name">
 
                     <label for="companyDesc">Company Description</label>
                     <input type="text" name="companyDesc" id="companyDesc" placeholder="Company Description">
@@ -107,8 +111,23 @@ Welcome, {{user.firstName}}!
             <script>
                 function toggleCompanyField() {
                     const role = document.getElementById('reg-role').value;
-                    const field = document.getElementById('company-field');
-                    field.style.display = (role === 'employer') ? 'block' : 'none';
+                    const companyField = document.getElementById('company-field');
+                    const cvField = document.getElementById('cv-field');
+                    const companyNameInput = document.getElementById('companyName');
+
+                    if (role === 'employer') {
+                        companyField.style.display = 'block';
+                        cvField.style.display = 'none';
+                        companyNameInput.setAttribute('required', '');
+                    } else if (role === 'job_seeker') {
+                        companyField.style.display = 'none';
+                        cvField.style.display = 'block';
+                        companyNameInput.removeAttribute('required');
+                    } else {
+                        companyField.style.display = 'none';
+                        cvField.style.display = 'none';
+                        companyNameInput.removeAttribute('required');
+                    }
                 }
 
                 document.addEventListener('DOMContentLoaded', () => {
@@ -116,6 +135,7 @@ Welcome, {{user.firstName}}!
                     document.getElementById('reg-role').addEventListener('change', toggleCompanyField);
                 });
             </script>
+
 
             <div>
                 <input type="submit" value="Register">
