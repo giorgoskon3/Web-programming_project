@@ -119,6 +119,7 @@ export function showPostManagement(req, res, next) {
 
   const jobs = model.getPostedJobs();
   res.render('post_management', {
+    appName: 'Job Agency Application',
     title: 'Post Management',
     css: ['styles.css', 'post_management.css'],
     appName: 'Job Agency Application',

@@ -1,64 +1,68 @@
-  <header>
-    <h1 class="mainTitle">Job Search</h1>
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="/">Main Page</a></li>
-        <li><a href="/job_seeker">Job Seeker</a></li>
-        <li><a href="/employer">Employer</a></li>
-        <li><a href="/communicate">Communicate</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <div class="search-container">
-    <form id="filterForm" class="filters">
-      <input type="text" id="title" placeholder="Job Title" />
-      <input type="text" id="location" placeholder="Location" />
-
-      <select id="type">
-        <option value="">All Types</option>
-        {{#each jobTypes}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <select id="level">
-        <option value="">All Levels</option>
-        {{#each jobLevels}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <select id="workStyle">
-        <option value="">Work Style</option>
-        {{#each workStyles}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <select id="benefits">
-        <option value="">Benefits</option>
-        {{#each benefits}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <input type="text" id="skills" placeholder="Required Skills (e.g. JavaScript)" />
-      <input type="text" id="salary" placeholder="Minimum Salary ($)" />
-
-      <button type="submit">Search</button>
-    </form>
-
-    <div class="jobs-container" id="jobList">
-      {{!-- Here you can render job cards if needed --}}
-      {{#each jobs}}
-        <div class="job-card">
-          <h3>{{title}}</h3>
-          <p>{{location}} - {{type}}</p>
-          <p>{{level}} - {{workStyle}}</p>
-          <p>Skills: {{skills}}</p>
-          <p>Salary: ${{salary}}</p>
-        </div>
+<header>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
       {{/each}}
-    </div>
-  </div>
+    </ul>
+  </nav>
+</header>
+
+<section class="filter-section">
+  <form id="filterForm" method="GET" action="/job-seeker/jobSearch">
+    <label for="jobTitle">Job Title</label>
+    <input type="text" id="jobTitle" name="title" placeholder="e.g. Software Engineer" />
+
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" placeholder="e.g. Athens" />
+
+    <label for="type">Job Type</label>
+    <select id="type" name="type">
+      <option value="">All Types</option>
+      {{#each jobTypes}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <label for="level">Level</label>
+    <select id="level" name="level">
+      <option value="">All Levels</option>
+      {{#each jobLevels}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <label for="workStyle">Work Style</label>
+    <select id="workStyle" name="workStyle">
+      <option value="">All Work Styles</option>
+      {{#each workStyles}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <button type="submit">Filter</button>
+  </form>
+</section>
+
+<section id="jobList" class="job-list">
+  {{#if jobs.length}}
+    {{#each jobs}}
+      <article class="job-posting">
+        <h2>{{title}}</h2>
+        <p>{{location}} - {{type_name}} - {{level}} - {{work_style}}</p>
+
+        {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
+        <form class="save-job-form" method="POST" action="/job-seeker/saveJob">
+          <input type="hidden" name="job_id" value="{{job_id}}">
+          <input type="hidden" name="user_id" value="1">
+          <button type="submit">💾 Save</button>
+        </form>
+
+      </article>
+
+    {{/each}}
+  {{else}}
+    <p>No jobs found matching your filters.</p>
+  {{/if}}
+</section>

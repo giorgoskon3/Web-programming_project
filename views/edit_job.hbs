@@ -30,3 +30,33 @@
   <button type="submit">Update</button>
 </form>
 </div>
+<header>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
+</header>
+
+<form method="POST" action="/employer/postmanagement/editJob/{{job.job_id}}">
+  <label>Title:</label>
+  <input type="text" name="title" value="{{job.title}}" required>
+
+  <label>Location:</label>
+  <input type="text" name="location" value="{{job.location}}" required>
+
+  <label>Description:</label>
+  <textarea name="description">{{job.description}}</textarea>
+
+  <label>Job Type:</label>
+  <select name="type_id">
+    {{#each types}}
+      <option value="{{type_id}}" {{#ifEquals ../job.type_id type_id}}selected{{/ifEquals}}>{{type_name}}</option>
+    {{/each}}
+  </select>
+
+  <button type="submit">Update</button>
+</form>

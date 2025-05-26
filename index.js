@@ -8,13 +8,7 @@ const app = express();
 const port = 3000;
 
 // Set view engine
-app.engine('hbs', exphbs.engine({
-   extname: '.hbs', defaultLayout: 'main', helpers: {
-      ifEquals: function (a, b, options) {
-         return a == b ? options.fn(this) : options.inverse(this);
-      }
-   }
-}));
+app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
 

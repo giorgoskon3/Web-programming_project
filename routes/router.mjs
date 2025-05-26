@@ -4,32 +4,22 @@ const { checkAuthenticated, checkRole } = controller.auth;
 
 const router = express.Router();
 
-// Home Route
+// Home
 router.get('/', controller.showHome);
 
 // --- Job Seeker Routes ---
 router.get('/job-seeker', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.showJobSeeker);
 
 router.get('/job-seeker/jobSearch', controller.jobSeeker.showJobSearch);
+// router.get('/job-seeker/jobSearch/results', controller.searchJobs);
+router.get('/job-seeker/savedJobs', controller.jobSeeker.showSavedJobs);
 
-router.get('/job-seeker/savedJobs', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.showSavedJobs);
-
-// --- Employer Routes ---
-router.get('/employer', checkAuthenticated, checkRole('employer'), controller.employer.showEmployer);
-
-router.get('/employer/showPostNewJob', checkAuthenticated, checkRole('employer'), controller.employer.showPostNewJob);
-
-router.post('/employer/showPostNewJob/postNewJob', checkAuthenticated, checkRole('employer'), controller.employer.postNewJob);
-
-router.get('/employer/postManagement', checkAuthenticated, checkRole('employer'), controller.employer.showPostManagement);
-
-router.get('/employer/postManagement/editJob/:jobId', checkAuthenticated, checkRole('employer'), controller.employer.showEditJob);
-
-router.post('/employer/postManagement/editJob/:jobId', checkAuthenticated, checkRole('employer'), controller.employer.editJob);
-
-router.post('/employer/postManagement/deleteJob/:jobId', checkAuthenticated, checkRole('employer'), controller.employer.deleteJob);
-
-router.get('/employer/editCompanyProfile', checkAuthenticated, checkRole('employer'), controller.employer.showEditCompanyProfile);
+// Employer Routes
+router.get('/employer', controller.employer.showEmployer);
+router.get('/employer/showPostNewJob', controller.employer.showPostNewJob);
+router.post('/employer/showPostNewJob/postNewJob', controller.employer.postNewJob);
+router.get('/employer/postManagement', controller.employer.showPostManagement);
+router.get('/employer/editCompanyProfile', controller.employer.showEditCompanyProfile);
 
 // Communication Routes
 router.get('/communicate', controller.communicate.showCommunicate);
