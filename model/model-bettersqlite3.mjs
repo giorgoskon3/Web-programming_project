@@ -140,6 +140,69 @@ function getUserRole(user_id) {
   return null;
 }
 
+export function getJobLevels() {
+  return db.prepare("SELECT DISTINCT level FROM TYPE").all().map(r => r.level);
+}
+
+export function getWorkStyles() {
+  return db.prepare("SELECT DISTINCT work_style FROM JOB").all().map(r => r.work_style);
+}
+
+export function searchJobs({ title, location, type, level, workStyle }) {
+  let query = `
+    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
+    FROM JOB
+    LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
+    WHERE 1=1
+  `;
+  const params = [];
+
+  if (title) {
+    query += " AND JOB.title LIKE ?";
+    params.push(`%${title}%`);
+  }
+  if (location) {
+    query += " AND JOB.location LIKE ?";
+    params.push(`%${location}%`);
+  }
+  if (type) {
+    query += " AND TYPE.type_name = ?";
+    params.push(type);
+  }
+  if (level) {
+    query += " AND TYPE.level = ?";
+    params.push(level);
+  }
+  if (workStyle) {
+    query += " AND JOB.work_style = ?";
+    params.push(workStyle);
+  }
+
+  return db.prepare(query).all(...params);
+}
+
+export function saveJob({ user_id, job_id }) {
+  return db.prepare(
+    `INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status)
+     VALUES (?, ?, strftime('%s','now'), 'saved')`
+  ).run(user_id, job_id);
+}
+
+export function getSavedJobs(user_id) {
+  return db.prepare(`
+    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
+    FROM saves
+    JOIN JOB ON saves.job_id = JOB.job_id
+    LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
+    WHERE saves.user_id = ?
+  `).all(user_id);
+}
+
+export function removeSavedJob({ user_id, job_id }) {
+  return db.prepare("DELETE FROM saves WHERE user_id = ? AND job_id = ?").run(user_id, job_id);
+}
+
+
 // Συνάρτηση: κλείσιμο της βάσης
 function shutdown() {
    try {

@@ -1,82 +1,49 @@
-import { default as db } from '../model/model-bettersqlite3.mjs';
+import { navLinks } from "./index_controller.mjs";
+const model = await import("../model/model-bettersqlite3.mjs");
 
 export function showJobSeeker(req, res) {
-  res.render('job_seeker', {
-    title: 'Job Seeker',
-    css: ['styles.css', 'job_seeker.css'],
-    appName: 'Job Agency Application',
+  res.render("job_seeker", {
+    title: "Job Seeker",
+    css: ["styles.css", "job_seeker.css"],
+    appName: "Job Agency Application",
     navLinks: navLinks,
     cards: [
       {
-        title: 'My Profile',
+        title: "My Profile",
         buttons: [
-          { label: 'Edit Profile', href: '/job-seeker/editProfile', id: 'editProfile' },
-          { label: 'Upload Resume', href: '/job-seeker/uploadResume', id: 'uploadResume' },
-          { label: 'Recommended Jobs', href: '/job-seeker/recommendedJobs', id: 'recommendedJobs' }
-        ]
+          { label: "Edit Profile", href: "/job-seeker/editProfile", id: "editProfile" },
+          { label: "Upload Resume", href: "/job-seeker/uploadResume", id: "uploadResume" },
+          { label: "Recommended Jobs", href: "/job-seeker/recommendedJobs", id: "recommendedJobs" },
+        ],
       },
       {
-        title: 'Job Opportunities',
+        title: "Job Opportunities",
         buttons: [
-          { label: 'Job Search', href: '/job-seeker/jobSearch', id: 'jobSearch' },
-          { label: 'Saved Jobs', href: '/job-seeker/savedJobs', id: 'savedJobs' }
-        ]
-      }
-    ]
+          { label: "Job Search", href: "/job-seeker/jobSearch", id: "jobSearch" },
+          { label: "Saved Jobs", href: "/job-seeker/savedJobs", id: "savedJobs" },
+        ],
+      },
+    ],
   });
 }
 
 export function showJobSearch(req, res) {
   const { title, location, type, level, workStyle } = req.query;
 
-  const jobTypes = db.prepare('SELECT DISTINCT type_name FROM TYPE').all().map(r => r.type_name);
-  const jobLevels = db.prepare('SELECT DISTINCT level FROM TYPE').all().map(r => r.level);
-  const workStyles = db.prepare('SELECT DISTINCT work_style FROM JOB').all().map(r => r.work_style);
+  const jobTypes = model.getJobTypes();
+  const jobLevels = model.getJobLevels();
+  const workStyles = model.getWorkStyles();
+  const jobs = model.searchJobs({ title, location, type, level, workStyle });
 
-  let query = `
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
-    FROM JOB
-    LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
-    WHERE 1=1
-  `;
-  const params = [];
-  if (title) {
-    query += ' AND JOB.title LIKE ?';
-    params.push(`%${title}%`);
-  }
-  if (location) {
-    query += ' AND JOB.location LIKE ?';
-    params.push(`%${location}%`);
-  }
-  if (type) {
-    query += ' AND TYPE.type_name = ?';
-    params.push(type);
-  }
-  if (level) {
-    query += ' AND TYPE.level = ?';
-    params.push(level);
-  }
-  if (workStyle) {
-    query += ' AND JOB.work_style = ?';
-    params.push(workStyle);
-  }
-
-  const jobs = db.prepare(query).all(...params);
-
-  res.render('job_search', {
-    title: 'Job Search Platform',
-    css: ['styles.css', 'job_search_v2.css'],
-    appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
+  res.render("job_search", {
+    title: "Job Search Platform",
+    css: ["styles.css", "job_search_v2.css"],
+    appName: "Job Agency Application",
+    navLinks: navLinks,
     jobTypes,
     jobLevels,
     workStyles,
-    jobs
+    jobs,
   });
 }
 
@@ -84,61 +51,45 @@ export function saveJob(req, res) {
   const { user_id, job_id } = req.body;
 
   try {
-    const stmt = db.prepare(`INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status) VALUES (?, ?, strftime('%s','now'), 'saved')`);
-    stmt.run(user_id, job_id);
-    res.redirect('/job-seeker/jobSearch');
+    model.saveJob({ user_id, job_id });
+    res.redirect("/job-seeker/jobSearch");
   } catch (err) {
-    console.error('Error saving job:', err);
-    res.status(500).send('Error saving job');
+    console.error("Error saving job:", err);
+    res.status(500).send("Error saving job");
   }
 }
 
 export function showSavedJobs(req, res) {
-  const userId = 1;
+  const userId = 1; // TODO: Replace with session user ID
 
-  const savedJobs = db.prepare(`
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
-    FROM saves
-    JOIN JOB ON saves.job_id = JOB.job_id
-    LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
-    WHERE saves.user_id = ?
-  `).all(userId);
+  const savedJobs = model.getSavedJobs(userId);
 
-  res.render('saved_jobs', {
-    title: 'Saved Jobs',
-    css: ['styles.css', 'saved_jobs.css'],
-    appName: 'Job Agency Application',
-    navLinks: [
-      { href: '/', text: 'Home' },
-      { href: '/job-seeker', text: 'Job Seeker' },
-      { href: '/employer', text: 'Employer' },
-      { href: '/communicate', text: 'Communicate' }
-    ],
-    savedJobs
+  res.render("saved_jobs", {
+    title: "Saved Jobs",
+    css: ["styles.css", "saved_jobs.css"],
+    appName: "Job Agency Application",
+    navLinks: navLinks,
+    savedJobs,
   });
 }
 
 export function removeSavedJob(req, res) {
   const jobId = req.params.jobId;
-  const userId = 1;
+  const userId = 1; // TODO: Replace with session user ID
 
   try {
-    const stmt = db.prepare('DELETE FROM saves WHERE user_id = ? AND job_id = ?');
-    stmt.run(userId, jobId);
-    res.redirect('/job-seeker/savedJobs');
+    model.removeSavedJob({ user_id: userId, job_id: jobId });
+    res.redirect("/job-seeker/savedJobs");
   } catch (err) {
-    console.error('Error removing saved job:', err);
-    res.status(500).send('Failed to remove job');
+    console.error("Error removing saved job:", err);
+    res.status(500).send("Failed to remove job");
   }
 }
-
-
-
 
 export default {
   showJobSeeker,
   showJobSearch,
   showSavedJobs,
   saveJob,
-  removeSavedJob
+  removeSavedJob,
 };
