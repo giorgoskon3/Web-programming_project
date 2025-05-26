@@ -1,63 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
+<header>
+  <h1 class="mainTitle">{{appName}}</h1>
+  <nav class="navbar">
+    <ul class="nav-links">
+      {{#each navLinks}}
+      <li><a href="{{href}}">{{text}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
+</header>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Search</title>
-  <link rel="stylesheet" href="assets/css/job_search.css" />
-  <script src="assets/js/job_search.js" defer></script>
-</head>
+<section class="filter-section">
+  <form id="filterForm" method="GET" action="/job-seeker/jobSearch">
+    <label for="jobTitle">Job Title</label>
+    <input type="text" id="jobTitle" name="title" placeholder="e.g. Software Engineer" />
 
-<body>
-  <header>
-    <h1>Job Search Platform</h1>
-  </header>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" placeholder="e.g. Athens" />
 
-  <section class="filter-section">
-    <form id="filterForm">
-      <label for="jobTitle">Job Title</label>
-      <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" />
+    <label for="type">Job Type</label>
+    <select id="type" name="type">
+      <option value="">All Types</option>
+      {{#each jobTypes}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
 
-      <label for="location">Location</label>
-      <input type="text" id="location" placeholder="e.g. Athens" />
+    <label for="level">Level</label>
+    <select id="level" name="level">
+      <option value="">All Levels</option>
+      {{#each jobLevels}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
 
-      <label for="type">Job Type</label>
-      <select id="type">
-        <option value="">All Types</option>
-        {{#each jobTypes}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
+    <label for="workStyle">Work Style</label>
+    <select id="workStyle" name="workStyle">
+      <option value="">All Work Styles</option>
+      {{#each workStyles}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
 
-      <label for="level">Level</label>
-      <select id="level">
-        <option value="">All Levels</option>
-        {{#each jobLevels}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
+    <button type="submit">Filter</button>
+  </form>
+</section>
 
-      <label for="workStyle">Work Style</label>
-      <select id="workStyle">
-        <option value="">All Work Styles</option>
-        {{#each workStyles}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <button type="submit">Filter</button>
-    </form>
-  </section>
-
-  <section id="jobList" class="job-list">
+<section id="jobList" class="job-list">
+  {{#if jobs.length}}
     {{#each jobs}}
       <article class="job-posting">
         <h2>{{title}}</h2>
-        <p>{{location}} - {{type}} - {{level}} - {{workStyle}}</p>
-      </article>
-    {{/each}}
-  </section>
-</body>
+        <p>{{location}} - {{type_name}} - {{level}} - {{work_style}}</p>
 
-</html>
+        {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
+        <form class="save-job-form" method="POST" action="/job-seeker/saveJob">
+          <input type="hidden" name="job_id" value="{{job_id}}">
+          <input type="hidden" name="user_id" value="1">
+          <button type="submit">💾 Save</button>
+        </form>
+
+      </article>
+
+    {{/each}}
+  {{else}}
+    <p>No jobs found matching your filters.</p>
+  {{/if}}
+</section>
