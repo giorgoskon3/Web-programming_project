@@ -16,7 +16,6 @@ export async function doLogin(req, res) {
     return res.status(401).send('Invalid username or password');
   }
 
-  // Προσδιορισμός ρόλου
   const role = model.getUserRole(user.user_id);
   if (!role) {
     return res.status(403).send('No role assigned to this user');
@@ -28,7 +27,6 @@ export async function doLogin(req, res) {
     company_id = employer.company_id || null
   }
 
-  // Αποθήκευση session
   req.session.user = {
     id: user.user_id,
     username: user.username,

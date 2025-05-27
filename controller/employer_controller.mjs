@@ -54,7 +54,7 @@ export function showPostNewJob(req, res) {
   }
 }
 
-export async function postNewJob(req, res) {
+export function postNewJob(req, res) {
   try {
     console.log('Received new job data:', req.body);
     const newJob = {
@@ -67,7 +67,7 @@ export async function postNewJob(req, res) {
       company_id: req.session.user.company_id
     };
 
-    const result = await model.postNewJob(newJob);
+    const result = model.postNewJob(newJob);
     res.redirect('/employer/postManagement');
 
   } catch (err) {
@@ -76,13 +76,14 @@ export async function postNewJob(req, res) {
   }
 }
 
-export async function showPostManagement(req, res, next) {
+export function showPostManagement(req, res, next) {
   try {
     const employerId = req.session.user.id;
     const { title, location, type_id } = req.query;
 
-    const types = await model.getJobTypes();
-    const jobPosts = await model.getPostsByEmployerWithFilters(employerId, { title, location, type_id });
+    const types = model.getJobTypes();
+    const work_style = model.getWorkStyles();
+    const jobPosts = model.getPostedJobs(employerId, { title, location, type_id, work_style });
 
     res.render('post_management', {
       appName: 'Job Agency Application',
@@ -90,6 +91,7 @@ export async function showPostManagement(req, res, next) {
       css: ['styles.css', 'post_management.css'],
       jobs: jobPosts,
       types: types,
+      work_style: work_style,
       query: { title, location, type_id },
       navLinks: navLinks
     });

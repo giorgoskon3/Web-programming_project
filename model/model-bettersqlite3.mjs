@@ -12,16 +12,6 @@ console.log('Using better-sqlite3 module');
 // Δημιουργία σύνδεσης με SQLite βάση δεδομένων
 const db = new bettersqlite3(path.join(__dirname, '../data/sqlite-database.db'), { fileMustExist: true });
 
-// Συνάρτηση: επιστροφή όλων των καταχωρήσεων στον πίνακα JOB
-const getPostedJobs = () => {
-   try {
-      const stmt = db.prepare('SELECT * FROM JOB');
-      return stmt.all();
-   } catch (err) {
-      throw err;
-   }
-};
-
 const postNewJob = (newJob) => {
    try {
       const postDate = Math.floor(Date.now() / 1000);
@@ -72,27 +62,36 @@ const createUser = (user) => {
    }
 };
 
-function getPostsByEmployerWithFilters(employerId, filters) {
+function getPostedJobs(employerId, filters) {
    let sql = `
-     SELECT * FROM JOB
-     WHERE user_id = ?
+SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name
+FROM JOB J
+LEFT JOIN TYPE T ON T.type_id=J.type_id
+JOIN COMPANY C ON C.company_id=J.company_id
+WHERE J.user_id = ?
 `;
    const params = [employerId];
-
+    console.log("Generated SQL:", sql);
+    console.log("With params:", params);
    if (filters.title) {
-      sql += ' AND title LIKE ?';
+      sql += ' AND J.title LIKE ?';
       params.push(`%${filters.title}%`);
    }
 
    if (filters.location) {
-      sql += ' AND location LIKE ?';
+      sql += ' AND J.location LIKE ?';
       params.push(`%${filters.location}%`);
    }
 
    if (filters.type_id) {
-      sql += ' AND type_id = ?';
+      sql += ' AND J.type_id = ?';
       params.push(filters.type_id);
    }
+
+   // if (filters.work_style) {
+   //    sql += ' AND J.work_style = ?';
+   //    params.push(filters.work_style);
+   // }
 
    const stmt = db.prepare(sql);
    return stmt.all(...params);
@@ -112,7 +111,6 @@ const updateJob = (jobId, updatedJob) => {
    try {
       const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=? WHERE job_id = ?');
       const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, jobId);
-      console.log('Ενημερώνεται η δουλειά:', updateJobStm);
       return result;
    } catch (err) {
       throw err;
@@ -123,7 +121,6 @@ const deleteJob = (jobId) => {
    try {
       const deleteJobStm = db.prepare('DELETE FROM JOB WHERE job_id = ?');
       const result = deleteJobStm.run(jobId);
-      console.log('Διαγράφεται η δουλειά:', deleteJobStm);
       return result;
    } catch (err) {
       throw err;
@@ -209,14 +206,21 @@ export function saveJob({ user_id, job_id }) {
 }
 
 export function getSavedJobs(user_id) {
-   return db.prepare(`
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
+  return db.prepare(`
+    SELECT 
+      JOB.job_id, 
+      JOB.title, 
+      JOB.location, 
+      TYPE.type_name, 
+      TYPE.level, 
+      JOB.work_style
     FROM saves
     JOIN JOB ON saves.job_id = JOB.job_id
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
     WHERE saves.user_id = ?
   `).all(user_id);
 }
+
 
 export function removeSavedJob({ user_id, job_id }) {
    return db.prepare("DELETE FROM saves WHERE user_id = ? AND job_id = ?").run(user_id, job_id);
@@ -234,7 +238,7 @@ function shutdown() {
 }
 
 export {
-   getPostedJobs, postNewJob, getUserByUsername, createUser, getPostsByEmployerWithFilters,
+   postNewJob, getUserByUsername, createUser, getPostedJobs,
    getJobTypes, getJobById, updateJob, deleteJob, getCompanyByName, createCompany, createEmployer,
    createJobSeeker, getUserRole, shutdown
 };

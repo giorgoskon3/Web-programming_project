@@ -11,8 +11,10 @@ router.get('/', controller.showHome);
 router.get('/job-seeker', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.showJobSeeker);
 
 router.get('/job-seeker/jobSearch', controller.jobSeeker.showJobSearch);
+router.post('/job-seeker/jobSearch/saveJob/:jobId', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.saveJob);
 
 router.get('/job-seeker/savedJobs', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.showSavedJobs);
+router.post('/job-seeker/savedJobs/remove/:jobId', checkAuthenticated, checkRole('job_seeker'), controller.jobSeeker.removeSavedJob);
 
 // --- Employer Routes ---
 router.get('/employer', checkAuthenticated, checkRole('employer'), controller.employer.showEmployer);
