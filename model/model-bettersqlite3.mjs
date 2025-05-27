@@ -1,5 +1,3 @@
-// model/model-bettersqlite3.mjs
-
 import { default as bettersqlite3 } from 'better-sqlite3';
 import { get } from 'http';
 import path from 'path';
@@ -26,9 +24,24 @@ const getPostedJobs = () => {
 
 const postNewJob = (newJob) => {
    try {
-      const addNewJobStm = db.prepare('INSERT INTO JOB (title, description, location, type_id, user_id, status)  VALUES (?, ?, ?, ?, ?, ?)');
-      const result = addNewJobStm.run(newJob.title, newJob.description, newJob.location, newJob.type_id, newJob.user_id, 'open');
-      console.log('Εισάγεται η νέα δουλειά:', addNewJobStm);
+      const postDate = Math.floor(Date.now() / 1000);
+      const addNewJobStm = db.prepare(`
+  INSERT INTO JOB 
+  (title, description, location, type_id, user_id, status, work_style, company_id, postDate)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+      const result = addNewJobStm.run(
+         newJob.title,
+         newJob.description,
+         newJob.location,
+         newJob.type_id,
+         newJob.user_id,
+         'open',
+         newJob.work_style,
+         newJob.company_id,
+         postDate
+      );
+
       return result;
    } catch (err) {
       throw err;
@@ -44,6 +57,10 @@ const getUserByUsername = (username) => {
    }
 }
 
+export function getEmployerByUserId(user_id) {
+   return db.prepare('SELECT * FROM EMPLOYER WHERE user_id = ?').get(user_id);
+}
+
 const createUser = (user) => {
    try {
       const addNewUserStm = db.prepare('INSERT INTO USER (firstName, lastName, username, email, password, location, phone) VALUES (?, ?, ?, ?, ?, ?, ?)');
@@ -56,7 +73,10 @@ const createUser = (user) => {
 };
 
 function getPostsByEmployerWithFilters(employerId, filters) {
-   let sql = 'SELECT * FROM JOB WHERE user_id = ?';
+   let sql = `
+     SELECT * FROM JOB
+     WHERE user_id = ?
+`;
    const params = [employerId];
 
    if (filters.title) {
@@ -79,7 +99,7 @@ function getPostsByEmployerWithFilters(employerId, filters) {
 }
 
 function getJobTypes() {
-   const stmt = db.prepare('SELECT * FROM TYPE');
+   const stmt = db.prepare('SELECT type_id, type_name FROM TYPE');
    return stmt.all();
 }
 
@@ -90,8 +110,8 @@ function getJobById(id) {
 
 const updateJob = (jobId, updatedJob) => {
    try {
-      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, salary_range = ?, type_id = ? WHERE job_id = ?');
-      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.salary_range, updatedJob.type_id, jobId);
+      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=? WHERE job_id = ?');
+      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, jobId);
       console.log('Ενημερώνεται η δουλειά:', updateJobStm);
       return result;
    } catch (err) {
@@ -131,65 +151,65 @@ function createJobSeeker({ user_id, cv }) {
 }
 
 function getUserRole(user_id) {
-  const jobSeeker = db.prepare("SELECT * FROM JOB_SEEKER WHERE user_id = ?").get(user_id);
-  if (jobSeeker) return 'job_seeker';
+   const jobSeeker = db.prepare("SELECT * FROM JOB_SEEKER WHERE user_id = ?").get(user_id);
+   if (jobSeeker) return 'job_seeker';
 
-  const employer = db.prepare("SELECT * FROM EMPLOYER WHERE user_id = ?").get(user_id);
-  if (employer) return 'employer';
+   const employer = db.prepare("SELECT * FROM EMPLOYER WHERE user_id = ?").get(user_id);
+   if (employer) return 'employer';
 
-  return null;
+   return null;
 }
 
 export function getJobLevels() {
-  return db.prepare("SELECT DISTINCT level FROM TYPE").all().map(r => r.level);
+   return db.prepare("SELECT DISTINCT level FROM TYPE").all().map(r => r.level);
 }
 
 export function getWorkStyles() {
-  return db.prepare("SELECT DISTINCT work_style FROM JOB").all().map(r => r.work_style);
+   return db.prepare("SELECT DISTINCT work_style FROM JOB").all().map(r => r.work_style);
 }
 
 export function searchJobs({ title, location, type, level, workStyle }) {
-  let query = `
+   let query = `
     SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
     FROM JOB
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
     WHERE 1=1
   `;
-  const params = [];
+   const params = [];
 
-  if (title) {
-    query += " AND JOB.title LIKE ?";
-    params.push(`%${title}%`);
-  }
-  if (location) {
-    query += " AND JOB.location LIKE ?";
-    params.push(`%${location}%`);
-  }
-  if (type) {
-    query += " AND TYPE.type_name = ?";
-    params.push(type);
-  }
-  if (level) {
-    query += " AND TYPE.level = ?";
-    params.push(level);
-  }
-  if (workStyle) {
-    query += " AND JOB.work_style = ?";
-    params.push(workStyle);
-  }
+   if (title) {
+      query += " AND JOB.title LIKE ?";
+      params.push(`%${title}%`);
+   }
+   if (location) {
+      query += " AND JOB.location LIKE ?";
+      params.push(`%${location}%`);
+   }
+   if (type) {
+      query += " AND TYPE.type_name = ?";
+      params.push(type);
+   }
+   if (level) {
+      query += " AND TYPE.level = ?";
+      params.push(level);
+   }
+   if (workStyle) {
+      query += " AND JOB.work_style = ?";
+      params.push(workStyle);
+   }
 
-  return db.prepare(query).all(...params);
+   return db.prepare(query).all(...params);
 }
 
 export function saveJob({ user_id, job_id }) {
-  return db.prepare(
-    `INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status)
+   return db.prepare(
+      `INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status)
      VALUES (?, ?, strftime('%s','now'), 'saved')`
-  ).run(user_id, job_id);
+   ).run(user_id, job_id);
 }
 
 export function getSavedJobs(user_id) {
-  return db.prepare(`
+   return db.prepare(`
     SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
     FROM saves
     JOIN JOB ON saves.job_id = JOB.job_id
@@ -199,7 +219,7 @@ export function getSavedJobs(user_id) {
 }
 
 export function removeSavedJob({ user_id, job_id }) {
-  return db.prepare("DELETE FROM saves WHERE user_id = ? AND job_id = ?").run(user_id, job_id);
+   return db.prepare("DELETE FROM saves WHERE user_id = ? AND job_id = ?").run(user_id, job_id);
 }
 
 
@@ -213,6 +233,8 @@ function shutdown() {
    }
 }
 
-export { getPostedJobs, postNewJob, getUserByUsername, createUser, getPostsByEmployerWithFilters,
+export {
+   getPostedJobs, postNewJob, getUserByUsername, createUser, getPostsByEmployerWithFilters,
    getJobTypes, getJobById, updateJob, deleteJob, getCompanyByName, createCompany, createEmployer,
-   createJobSeeker, getUserRole, shutdown };
+   createJobSeeker, getUserRole, shutdown
+};

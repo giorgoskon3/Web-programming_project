@@ -22,12 +22,19 @@ export async function doLogin(req, res) {
     return res.status(403).send('No role assigned to this user');
   }
 
+  let company_id = null;
+  if (role === 'employer'){
+    const employer = model.getEmployerByUserId(user.user_id);
+    company_id = employer.company_id || null
+  }
+
   // Αποθήκευση session
   req.session.user = {
     id: user.user_id,
     username: user.username,
     role: role,
-    firstName: user.firstName
+    firstName: user.firstName,
+    company_id: company_id || null,
   };
 
   if (role === 'job_seeker') {
@@ -75,8 +82,11 @@ export async function doRegister(req, res) {
         location: companyLocation
       });
       company_id = newCompany.lastInsertRowid;
+      if (!company_id) {
+        company_id = 1;
+      }
     } else {
-      company_id = company.CompanyID;
+      company_id = company.company_id;
     }
 
     // Δημιουργία employer

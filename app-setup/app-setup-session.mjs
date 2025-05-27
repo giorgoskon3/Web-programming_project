@@ -1,5 +1,3 @@
-import session from 'express-session'
-
 const sessionMiddleware = {
     secret: 'secret',
     cookie: {

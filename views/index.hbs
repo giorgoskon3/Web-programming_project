@@ -118,15 +118,11 @@ Welcome, {{user.firstName}}!
                     if (role === 'employer') {
                         companyField.style.display = 'block';
                         cvField.style.display = 'none';
-                        companyNameInput.setAttribute('required', '');
-                    } else if (role === 'job_seeker') {
-                        companyField.style.display = 'none';
-                        cvField.style.display = 'block';
-                        companyNameInput.removeAttribute('required');
+                        companyNameInput.setAttribute('required', 'required');
                     } else {
                         companyField.style.display = 'none';
-                        cvField.style.display = 'none';
                         companyNameInput.removeAttribute('required');
+                        cvField.style.display = (role === 'job_seeker') ? 'block' : 'none';
                     }
                 }
 

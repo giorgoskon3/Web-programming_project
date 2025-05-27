@@ -12,30 +12,34 @@
 <div class="jobs-container">
   <h1>Posted Jobs</h1>
 
-  <form method="GET" action="/employer/postManagement" class="job-filter-form">
+  <form method="GET" action="/employer/postManagement" class="filter-container">
     <input type="text" name="title" placeholder="Job Title" value="{{query.title}}">
     <input type="text" name="location" placeholder="Location" value="{{query.location}}">
 
     <select name="type_id">
       <option value="">All Types</option>
       {{#each types}}
-      <option value="{{id}}" {{#ifEquals ../query.type_id id}}selected{{/ifEquals}}>{{name}}</option>
+      <option value="{{type_id}}" {{#ifEquals ../query.type_id type_id}}selected{{/ifEquals}}>{{type_name}}</option>
       {{/each}}
     </select>
 
+
     <button type="submit">Filter</button>
   </form>
+
   <br>
-  <h2>Βρέθηκαν {{jobPosts.length}} αγγελίες</h2>
+  <h2>Βρέθηκαν {{jobs.length}} αγγελίες</h2>
   <br>
   {{#each jobs}}
   <div class="job-card">
     <div class="job-info">
       <h2>{{title}}</h2>
       <p><strong>Company:</strong> {{company}}</p>
-      <p><strong>Location:</strong> {{location}}</p>
-      <p><strong>Date Posted:</strong> {{postedDate}}</p>
       <p><strong>Description:</strong> {{description}}</p>
+      <p><strong>Location:</strong> {{location}}</p>
+      <p><strong>Job Type:</strong> {{job_type}}</p>
+      <p><strong>Work Style:</strong> {{work_style}}</p>
+      <p><strong>Date Posted:</strong> {{postedDate}}</p>
     </div>
     <div class="job-actions">
       <form method="POST" action="/employer/postManagement/deleteJob/{{job_id}}"
