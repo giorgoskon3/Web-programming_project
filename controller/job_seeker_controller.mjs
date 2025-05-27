@@ -60,7 +60,7 @@ export function saveJob(req, res) {
 }
 
 export function showSavedJobs(req, res) {
-  const userId = 1; // TODO: Replace with session user ID
+  const userId = req.session.user.user_id;
 
   const savedJobs = model.getSavedJobs(userId);
 
@@ -75,7 +75,7 @@ export function showSavedJobs(req, res) {
 
 export function removeSavedJob(req, res) {
   const jobId = req.params.jobId;
-  const userId = 1; // TODO: Replace with session user ID
+  const userId = req.session.user.user_id;
 
   try {
     model.removeSavedJob({ user_id: userId, job_id: jobId });
