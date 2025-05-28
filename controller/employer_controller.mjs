@@ -33,7 +33,8 @@ export function showEmployer(req, res) {
         buttons: [
           { label: 'Edit Company Profile', href: '/employer/editCompanyProfile', id: 'editCompanyProfile' }]
       }
-    ]
+    ],
+    role: req.session.user?.role
   });
 }
 
@@ -56,6 +57,7 @@ export function showPostNewJob(req, res) {
 
 export function postNewJob(req, res) {
   try {
+    console.log('Received new job data:', req.body);
     const newJob = {
       title: req.body.title,
       description: req.body.description,
@@ -113,6 +115,7 @@ export async function showEditJob(req, res) {
   const jobId = req.params.jobId;
   try {
     const job = await model.getJobById(jobId);
+    console.log('Job to edit:', job);
     const types = await model.getJobTypes();
 
     res.render('edit_job', {

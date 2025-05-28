@@ -37,6 +37,12 @@
       <option value="hybrid" {{#ifEquals job.work_style "hybrid" }}selected{{/ifEquals}}>Hybrid</option>
     </select><br><br>
 
+    <label>Status</label>
+    <select name="status" required>
+      <option value="open" {{#ifEquals job.status "open" }}selected{{/ifEquals}}>open</option>
+      <option value="closed" {{#ifEquals job.status "closed" }}selected{{/ifEquals}}>closed</option>
+    </select><br><br>
+
     <button type="submit">Update</button>
   </form>
 </div>

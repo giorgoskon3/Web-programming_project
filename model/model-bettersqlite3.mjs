@@ -14,7 +14,7 @@ const db = new bettersqlite3(path.join(__dirname, '../data/sqlite-database.db'),
 
 const postNewJob = (newJob) => {
    try {
-      const postDate = new Date(Date.now()).toISOString().split('T')[0];
+      const postDate = Math.floor(Date.now() / 1000);
       const addNewJobStm = db.prepare(`
   INSERT INTO JOB 
   (title, description, location, type_id, user_id, status, work_style, company_id, postDate)
@@ -64,13 +64,15 @@ const createUser = (user) => {
 
 function getPostedJobs(employerId, filters) {
    let sql = `
-SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name, J.postDate
+SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name
 FROM JOB J
 LEFT JOIN TYPE T ON T.type_id=J.type_id
 JOIN COMPANY C ON C.company_id=J.company_id
 WHERE J.user_id = ?
 `;
    const params = [employerId];
+    console.log("Generated SQL:", sql);
+    console.log("With params:", params);
    if (filters.title) {
       sql += ' AND J.title LIKE ?';
       params.push(`%${filters.title}%`);
@@ -85,6 +87,11 @@ WHERE J.user_id = ?
       sql += ' AND J.type_id = ?';
       params.push(filters.type_id);
    }
+
+   // if (filters.work_style) {
+   //    sql += ' AND J.work_style = ?';
+   //    params.push(filters.work_style);
+   // }
 
    const stmt = db.prepare(sql);
    return stmt.all(...params);
@@ -160,7 +167,7 @@ export function getWorkStyles() {
 
 export function searchJobs({ title, location, type, level, workStyle }) {
    let query = `
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style, JOB.description
+    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
     FROM JOB
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
     WHERE 1=1
