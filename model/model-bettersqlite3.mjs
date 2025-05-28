@@ -14,7 +14,7 @@ const db = new bettersqlite3(path.join(__dirname, '../data/sqlite-database.db'),
 
 const postNewJob = (newJob) => {
    try {
-      const postDate = Math.floor(Date.now() / 1000);
+      const postDate = new Date(Date.now()).toISOString().split('T')[0];
       const addNewJobStm = db.prepare(`
   INSERT INTO JOB 
   (title, description, location, type_id, user_id, status, work_style, company_id, postDate)
@@ -64,15 +64,13 @@ const createUser = (user) => {
 
 function getPostedJobs(employerId, filters) {
    let sql = `
-SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name
+SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name, J.postDate
 FROM JOB J
 LEFT JOIN TYPE T ON T.type_id=J.type_id
 JOIN COMPANY C ON C.company_id=J.company_id
 WHERE J.user_id = ?
 `;
    const params = [employerId];
-    console.log("Generated SQL:", sql);
-    console.log("With params:", params);
    if (filters.title) {
       sql += ' AND J.title LIKE ?';
       params.push(`%${filters.title}%`);

@@ -56,7 +56,6 @@ export function showPostNewJob(req, res) {
 
 export function postNewJob(req, res) {
   try {
-    console.log('Received new job data:', req.body);
     const newJob = {
       title: req.body.title,
       description: req.body.description,
