@@ -55,7 +55,6 @@ const createUser = (user) => {
    try {
       const addNewUserStm = db.prepare('INSERT INTO USER (firstName, lastName, username, email, password, location, phone) VALUES (?, ?, ?, ?, ?, ?, ?)');
       const result = addNewUserStm.run(user.firstName, user.lastName, user.username, user.email, user.password, user.location, user.phone);
-      console.log('Εισάγεται ο νέος χρήστης:', addNewUserStm);
       return result;
    } catch (err) {
       throw err;
@@ -71,8 +70,6 @@ JOIN COMPANY C ON C.company_id=J.company_id
 WHERE J.user_id = ?
 `;
    const params = [employerId];
-    console.log("Generated SQL:", sql);
-    console.log("With params:", params);
    if (filters.title) {
       sql += ' AND J.title LIKE ?';
       params.push(`%${filters.title}%`);
@@ -87,11 +84,6 @@ WHERE J.user_id = ?
       sql += ' AND J.type_id = ?';
       params.push(filters.type_id);
    }
-
-   // if (filters.work_style) {
-   //    sql += ' AND J.work_style = ?';
-   //    params.push(filters.work_style);
-   // }
 
    const stmt = db.prepare(sql);
    return stmt.all(...params);

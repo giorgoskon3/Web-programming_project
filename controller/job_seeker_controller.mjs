@@ -38,7 +38,7 @@ export function showJobSearch(req, res) {
 
   res.render("job_search", {
     title: "Job Search Platform",
-    css: ["job_search_v2.css"],
+    css: ["job_search.css"],
     appName: "Job Agency Application",
     navLinks: navLinks,
     jobTypes,
@@ -52,7 +52,6 @@ export function saveJob(req, res) {
   const { job_id } = req.body;
   const user_id = req.session.user.id;
   try {
-    console.log(user_id)
     model.saveJob({user_id, job_id});
     res.redirect("/job-seeker/savedJobs");
   } catch (err) {

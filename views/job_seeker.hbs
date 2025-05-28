@@ -1,40 +1,15 @@
-{{!-- <header>
+<header>
   <h1 class="mainTitle">{{appName}}</h1>
   <nav class="navbar">
     <ul class="nav-links">
       {{#each navLinks}}
-      {{#unless (eq text "Employer")}}
+        {{#unless (eq text "Employer")}}
       <li><a href="{{href}}">{{text}}</a></li>
-      {{/unless}}
+        {{/unless}}
       {{/each}}
     </ul>
   </nav>
-</header> --}}
-
-{{!-- <header>
-  <h1 class="mainTitle">{{appName}}</h1>
-  {{#unless (eq role "employer")}}
-  <nav class="navbar">
-    <ul class="nav-links">
-      {{#each navLinks}}
-      <li><a href="{{href}}">{{text}}</a></li>
-      {{/each}}
-    </ul>
-  </nav>
-  {{/unless}}
-</header> --}}
-
-{{#unless (eq role "employer")}}
-<nav class="navbar">
-  <ul class="nav-links">
-    {{#each navLinks}}
-      {{#unless (eq text "Employer")}} <!-- hide "Employer" -->
-      <li><a href="{{href}}">{{text}}</a></li>
-      {{/unless}}
-    {{/each}}
-  </ul>
-</nav>
-{{/unless}}
+</header>
 
 <section class="container" id="job-seeker">
   {{#each cards}}
