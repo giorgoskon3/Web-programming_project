@@ -14,7 +14,7 @@ const db = new bettersqlite3(path.join(__dirname, '../data/sqlite-database.db'),
 
 const postNewJob = (newJob) => {
    try {
-      const postDate = new Date(Date.now()).toISOString().split('T')[0];
+      const postDate = Math.floor(Date.now() / 1000);
       const addNewJobStm = db.prepare(`
   INSERT INTO JOB 
   (title, description, location, type_id, user_id, status, work_style, company_id, postDate)
@@ -64,13 +64,15 @@ const createUser = (user) => {
 
 function getPostedJobs(employerId, filters) {
    let sql = `
-SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name, J.postDate
+SELECT J.job_id, J.title, J.work_style, J.location, J.description, T.type_name, J.status, C.company_name
 FROM JOB J
 LEFT JOIN TYPE T ON T.type_id=J.type_id
 JOIN COMPANY C ON C.company_id=J.company_id
 WHERE J.user_id = ?
 `;
    const params = [employerId];
+    console.log("Generated SQL:", sql);
+    console.log("With params:", params);
    if (filters.title) {
       sql += ' AND J.title LIKE ?';
       params.push(`%${filters.title}%`);
@@ -86,12 +88,17 @@ WHERE J.user_id = ?
       params.push(filters.type_id);
    }
 
+   // if (filters.work_style) {
+   //    sql += ' AND J.work_style = ?';
+   //    params.push(filters.work_style);
+   // }
+
    const stmt = db.prepare(sql);
    return stmt.all(...params);
 }
 
 function getJobTypes() {
-   const stmt = db.prepare('SELECT type_id, type_name FROM TYPE ORDER BY type_name');
+   const stmt = db.prepare('SELECT type_id, type_name FROM TYPE');
    return stmt.all();
 }
 
@@ -102,8 +109,8 @@ function getJobById(id) {
 
 const updateJob = (jobId, updatedJob) => {
    try {
-      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=?, status=? WHERE job_id = ?');
-      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, updatedJob.status, jobId);
+      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=? WHERE job_id = ?');
+      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, jobId);
       return result;
    } catch (err) {
       throw err;
@@ -160,7 +167,7 @@ export function getWorkStyles() {
 
 export function searchJobs({ title, location, type, level, workStyle }) {
    let query = `
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style, JOB.description
+    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
     FROM JOB
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
     WHERE 1=1
@@ -192,35 +199,24 @@ export function searchJobs({ title, location, type, level, workStyle }) {
 }
 
 export function saveJob({ user_id, job_id }) {
-   try {
-      const requestDate = new Date(Date.now()).toISOString().split('T')[0];
-      return db.prepare(
-         `INSERT INTO saves (user_id, job_id, requestDate, status)
-     VALUES (?, ?, ?, 'saved')`
-      ).run(user_id, job_id, requestDate);
-   }
-   catch (err) {
-      throw err;
-   }
-
+   return db.prepare(
+      `INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status)
+     VALUES (?, ?, strftime('%s','now'), 'saved')`
+   ).run(user_id, job_id);
 }
 
 export function getSavedJobs(user_id) {
-   return db.prepare(`
+  return db.prepare(`
     SELECT 
       JOB.job_id, 
       JOB.title, 
       JOB.location, 
       TYPE.type_name, 
       TYPE.level, 
-      JOB.work_style,
-      saves.requestDate,
-      JOB.description,
-      C.company_name
+      JOB.work_style
     FROM saves
     JOIN JOB ON saves.job_id = JOB.job_id
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
-    JOIN COMPANY C ON C.company_id = JOB.company_id
     WHERE saves.user_id = ?
   `).all(user_id);
 }
