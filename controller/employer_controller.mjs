@@ -113,7 +113,6 @@ export async function showEditJob(req, res) {
   const jobId = req.params.jobId;
   try {
     const job = await model.getJobById(jobId);
-    console.log('Job to edit:', job);
     const types = await model.getJobTypes();
 
     res.render('edit_job', {
