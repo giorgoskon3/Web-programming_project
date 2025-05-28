@@ -138,7 +138,8 @@ export async function editJob(req, res) {
     description: req.body.description,
     location: req.body.location,
     type_id: Number(req.body.type_id),
-    work_style: req.body.work_style
+    work_style: req.body.work_style,
+    status: req.body.status
   };
 
   try {

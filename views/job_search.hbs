@@ -50,7 +50,7 @@
     {{#each jobs}}
       <article class="job-posting">
         <h2>{{title}}</h2>
-        <p>Location: {{location}}<br>Type: {{type_name}}<br>Level: {{level}}<br>Work Style: {{work_style}}<br>Description: {{description}}</p>
+        <p>Location: {{location}}<br>Type: {{type_name}}<br>Level: {{level}}<br>Work Style: {{work_style}}<br>Description: {{description}}<br>Company: {{company_name}}</p>
 
         {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
         <form class="save-job-form" style="250px;" method="POST" action="/job-seeker/jobSearch/saveJob/{{job_id}}">
