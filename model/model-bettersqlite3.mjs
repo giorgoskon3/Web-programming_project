@@ -88,11 +88,6 @@ WHERE J.user_id = ?
       params.push(filters.type_id);
    }
 
-   // if (filters.work_style) {
-   //    sql += ' AND J.work_style = ?';
-   //    params.push(filters.work_style);
-   // }
-
    const stmt = db.prepare(sql);
    return stmt.all(...params);
 }
@@ -167,7 +162,7 @@ export function getWorkStyles() {
 
 export function searchJobs({ title, location, type, level, workStyle }) {
    let query = `
-    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style
+    SELECT JOB.job_id, JOB.title, JOB.location, TYPE.type_name, TYPE.level, JOB.work_style, JOB.description
     FROM JOB
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
     WHERE 1=1

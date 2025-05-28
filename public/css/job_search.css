@@ -79,11 +79,13 @@
   color: #666;
   margin: 4px 0;
   }
+  
+  /* form{
+    width:200px;
+  } */
 
   .save-job-form {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
+    width: 150px;
   }
   
   .save-job-form button {

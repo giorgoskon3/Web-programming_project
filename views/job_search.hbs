@@ -21,7 +21,7 @@
     <select id="type" name="type">
       <option value="">All Types</option>
       {{#each jobTypes}}
-        <option value="{{this}}">{{this}}</option>
+        <option value="{{this.type_name}}">{{this.type_name}}</option>
       {{/each}}
     </select>
 
@@ -50,13 +50,13 @@
     {{#each jobs}}
       <article class="job-posting">
         <h2>{{title}}</h2>
-        <p>{{location}} - {{type_name}} - {{level}} - {{work_style}}</p>
+        <p>Location: {{location}}<br>Type: {{type_name}}<br>Level: {{level}}<br>Work Style: {{work_style}}<br>Description: {{description}}</p>
 
         {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
-        <form class="save-job-form" method="POST" action="/job-seeker/jobSearch/saveJob/{{job_id}}">
+        <form class="save-job-form" style="250px;" method="POST" action="/job-seeker/jobSearch/saveJob/{{job_id}}">
           <input type="hidden" name="job_id" value="{{job_id}}">
           <input type="hidden" name="user_id" value="{{user_id}}">
-          <button type="submit">💾 Save</button>
+          <button type="submit">Save</button>
         </form>
 
       </article>

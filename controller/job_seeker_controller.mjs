@@ -34,13 +34,13 @@ export function showJobSearch(req, res) {
   const jobLevels = model.getJobLevels();
   const workStyles = model.getWorkStyles();
   const jobs = model.searchJobs({ title, location, type, level, workStyle });
-
+  console.log(jobTypes);
   res.render("job_search", {
     title: "Job Search Platform",
-    css: ["styles.css", "job_search_v2.css"],
+    css: ["styles.css", "job_search.css"],
     appName: "Job Agency Application",
     navLinks: navLinks,
-    jobTypes,
+    jobTypes: jobTypes,
     jobLevels,
     workStyles,
     jobs,
