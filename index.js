@@ -14,6 +14,9 @@ app.engine('hbs', exphbs.engine({
    helpers: {
       ifEquals: function (a, b, options) {
          return a == b ? options.fn(this) : options.inverse(this);
+      },
+      eq: function (a, b) {
+         return a === b;
       }
    }
 }));
