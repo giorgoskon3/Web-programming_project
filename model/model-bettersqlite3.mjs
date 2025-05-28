@@ -91,7 +91,7 @@ WHERE J.user_id = ?
 }
 
 function getJobTypes() {
-   const stmt = db.prepare('SELECT type_id, type_name FROM TYPE');
+   const stmt = db.prepare('SELECT type_id, type_name FROM TYPE ORDER BY type_name');
    return stmt.all();
 }
 
@@ -102,8 +102,8 @@ function getJobById(id) {
 
 const updateJob = (jobId, updatedJob) => {
    try {
-      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=? WHERE job_id = ?');
-      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, jobId);
+      const updateJobStm = db.prepare('UPDATE JOB SET title = ?, description = ?, location = ?, type_id = ?, work_style=?, status=? WHERE job_id = ?');
+      const result = updateJobStm.run(updatedJob.title, updatedJob.description, updatedJob.location, updatedJob.type_id, updatedJob.work_style, updatedJob.status, jobId);
       return result;
    } catch (err) {
       throw err;
@@ -192,24 +192,35 @@ export function searchJobs({ title, location, type, level, workStyle }) {
 }
 
 export function saveJob({ user_id, job_id }) {
-   return db.prepare(
-      `INSERT OR IGNORE INTO saves (user_id, job_id, requestDate, status)
-     VALUES (?, ?, strftime('%s','now'), 'saved')`
-   ).run(user_id, job_id);
+   try {
+      const requestDate = new Date(Date.now()).toISOString().split('T')[0];
+      return db.prepare(
+         `INSERT INTO saves (user_id, job_id, requestDate, status)
+     VALUES (?, ?, ?, 'saved')`
+      ).run(user_id, job_id, requestDate);
+   }
+   catch (err) {
+      throw err;
+   }
+
 }
 
 export function getSavedJobs(user_id) {
-  return db.prepare(`
+   return db.prepare(`
     SELECT 
       JOB.job_id, 
       JOB.title, 
       JOB.location, 
       TYPE.type_name, 
       TYPE.level, 
-      JOB.work_style
+      JOB.work_style,
+      saves.requestDate,
+      JOB.description,
+      C.company_name
     FROM saves
     JOIN JOB ON saves.job_id = JOB.job_id
     LEFT JOIN TYPE ON JOB.type_id = TYPE.type_id
+    JOIN COMPANY C ON C.company_id = JOB.company_id
     WHERE saves.user_id = ?
   `).all(user_id);
 }
