@@ -24,15 +24,6 @@
       </option>
       {{/each}}
     </select>
-{{!-- 
-    <select name="work_style" multiple>
-      <option value="">Work Style</option>
-      {{#each work_style}}
-      <option value="{{this.work_style}}" {{#ifEquals ../query.work_style this.work_style}}selected{{/ifEquals}}>
-        {{this}}
-      </option>
-      {{/each}}
-    </select> --}}
 
     <button type="submit">Filter</button>
   </form>
@@ -49,7 +40,7 @@
       <p><strong>Location:</strong> {{location}}</p>
       <p><strong>Job Type:</strong> {{type_name}}</p>
       <p><strong>Work Style:</strong> {{work_style}}</p>
-      <p><strong>Date Posted:</strong> {{postedDate}}</p>
+      <p><strong>Date Posted:</strong> {{postDate}}</p>
       <p><strong>Status:</strong> {{status}}</p>
     </div>
     <div class="job-actions">
