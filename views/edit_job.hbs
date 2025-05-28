@@ -1,48 +1,26 @@
 <header>
-  <h1 class="mainTitle">{{appName}}</h1>
-  <nav class="navbar">
-    <ul class="nav-links">
-      {{#each navLinks}}
-      <li><a href="{{href}}">{{text}}</a></li>
-      {{/each}}
-    </ul>
-  </nav>
+    <h1 class="mainTitle">{{appName}}</h1>
+    <nav class="navbar">
+        <ul class="nav-links">
+            {{#each navLinks}}
+            <li><a href="{{href}}">{{text}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
 </header>
 
 <div class="container">
-  <form method="POST" action="/employer/postmanagement/editJob/{{job.job_id}}">
-    <label>Job Title</label>
-    <input type="text" name="title" value="{{job.title}}" placeholder="Job Title (required)" required><br><br>
+    <h1>Edit Company Profile</h1>
+    <form id="companyForm">
+        <label>Company Name</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Company Name (required)" required>
 
-    <label>Job Description</label>
-    <textarea name="description" rows="4" cols="50" placeholder="Job Description (required)"
-      required>{{job.description}}</textarea><br><br>
+        <label>Description</label>
+        <textarea id="description" name="description" placeholder="Description"></textarea>
 
-    <label>Job Location</label>
-    <input type="text" name="location" value="{{job.location}}" placeholder="Job Location (required)" required><br><br>
+        <label>Location</label>
+        <input type="text" id="location" name="location" placeholder="Location">
 
-    <label>Job Type</label><br>
-    <select name="type_id" required>
-      <option value="" disabled>Select Job Type</option>
-      {{#each jobTypes}}
-      <option value="{{type_id}}" {{#ifEquals type_id ../job.type_id}}selected{{/ifEquals}}>{{type_name}}</option>
-      {{/each}}
-    </select><br><br>
-
-    <label>Work Style</label>
-    <select name="work_style" required>
-      <option value="full-time" {{#ifEquals job.work_style "full-time" }}selected{{/ifEquals}}>Full-time</option>
-      <option value="part-time" {{#ifEquals job.work_style "part-time" }}selected{{/ifEquals}}>Part-time</option>
-      <option value="remote" {{#ifEquals job.work_style "remote" }}selected{{/ifEquals}}>Remote</option>
-      <option value="hybrid" {{#ifEquals job.work_style "hybrid" }}selected{{/ifEquals}}>Hybrid</option>
-    </select><br><br>
-
-    <label>Status</label>
-    <select name="status" required>
-      <option value="open" {{#ifEquals job.status "open" }}selected{{/ifEquals}}>open</option>
-      <option value="closed" {{#ifEquals job.status "closed" }}selected{{/ifEquals}}>closed</option>
-    </select><br><br>
-
-    <button type="submit">Update</button>
-  </form>
+        <button type="submit">Save Changes</button>
+    </form>
 </div>
