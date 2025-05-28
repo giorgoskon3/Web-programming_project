@@ -1,111 +1,108 @@
 /* Filter Form */
 .filter-section {
-  background-color: #ffffff;
-  max-width: 400px;
-  margin: 30px auto;
-  padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 #filterForm {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 #filterForm label {
-  font-weight: bold;
-  margin-top: 5px;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
 #filterForm input,
 #filterForm select {
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 100%;
-  box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #filterForm button {
-  margin-top: 10px;
-  padding: 12px;
-  font-size: 16px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #filterForm button:hover {
-  background-color: #2980b9;
+    background-color: #2980b9;
 }
 
-
 .job-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
-  }
-  
-  .job-posting {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 20px 24px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #e0e0e0;
-  }
-  
-  .job-posting:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-  }
-  
-  .job-posting h2 {
-  font-size: 20px;
-  color: #2c3e50;
-  margin-bottom: 10px;
-  }
-  
-  .job-posting p {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.job-posting {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.job-posting:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.job-posting h2 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.job-posting p {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0;
+}
+
+.save-job-form {
+  margin-top: 10px;
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.save-job-form button {
+  padding: 6px 12px;
   font-size: 14px;
-  color: #666;
-  margin: 4px 0;
-  }
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
-  .save-job-form {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .save-job-form button {
-    padding: 6px 14px;
-    font-size: 13px;
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .save-job-form button:hover {
-    background-color: #219150;
-  }
+.save-job-form button:hover {
+  background-color: #219150;
+}
 
-
-  
-
-
-  body {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -198,7 +195,7 @@ header {
     gap: 20px;
     padding: 20px;
     flex-wrap: wrap;
-    
+
 }
 
 .card {
@@ -227,25 +224,6 @@ textarea {
     font-size: 14px;
     resize: vertical;
 }
-
-/* .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    gap: 20px;
-}
-
-form {
-    width: 350px;
-    background-color: #f9f9f9;
-    padding: 25px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 1s ease-in-out;
-} */
 
 fieldset {
     border: none;
