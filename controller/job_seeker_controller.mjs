@@ -44,7 +44,7 @@ export function showJobSearch(req, res) {
     jobTypes,
     jobLevels,
     workStyles,
-    jobs,
+    jobs
   });
 }
 

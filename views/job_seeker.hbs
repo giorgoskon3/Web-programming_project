@@ -3,7 +3,9 @@
   <nav class="navbar">
     <ul class="nav-links">
       {{#each navLinks}}
+      {{#unless (eq text "Employer")}}
       <li><a href="{{href}}">{{text}}</a></li>
+      {{/unless}}
       {{/each}}
     </ul>
   </nav>
