@@ -48,11 +48,12 @@ export function showJobSearch(req, res) {
 }
 
 export function saveJob(req, res) {
-  const { user_id, job_id } = req.body;
-
+  const { job_id } = req.body;
+  const user_id = req.session.user.id;
   try {
-    model.saveJob({ user_id, job_id });
-    res.redirect("/job-seeker/jobSearch");
+    console.log(user_id)
+    model.saveJob({user_id, job_id});
+    res.redirect("/job-seeker/savedJobs");
   } catch (err) {
     console.error("Error saving job:", err);
     res.status(500).send("Error saving job");
@@ -60,7 +61,7 @@ export function saveJob(req, res) {
 }
 
 export function showSavedJobs(req, res) {
-  const userId = req.session.user.user_id;
+  const userId = req.session.user.id;
 
   const savedJobs = model.getSavedJobs(userId);
 
@@ -69,13 +70,13 @@ export function showSavedJobs(req, res) {
     css: ["styles.css", "saved_jobs.css"],
     appName: "Job Agency Application",
     navLinks: navLinks,
-    savedJobs,
+    savedJobs
   });
 }
 
 export function removeSavedJob(req, res) {
   const jobId = req.params.jobId;
-  const userId = req.session.user.user_id;
+  const userId = req.session.user.id;
 
   try {
     model.removeSavedJob({ user_id: userId, job_id: jobId });

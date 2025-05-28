@@ -53,9 +53,9 @@
         <p>{{location}} - {{type_name}} - {{level}} - {{work_style}}</p>
 
         {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
-        <form class="save-job-form" method="POST" action="/job-seeker/saveJob">
+        <form class="save-job-form" method="POST" action="/job-seeker/jobSearch/saveJob/{{job_id}}">
           <input type="hidden" name="job_id" value="{{job_id}}">
-          <input type="hidden" name="user_id" value="1">
+          <input type="hidden" name="user_id" value="{{user_id}}">
           <button type="submit">💾 Save</button>
         </form>
 
