@@ -21,7 +21,7 @@
     <select id="type" name="type">
       <option value="">All Types</option>
       {{#each jobTypes}}
-        <option value="{{this.type_name}}">{{this.type_name}}</option>
+      <option value="{{this.type_name}}">{{this.type_name}}</option>
       {{/each}}
     </select>
 
@@ -29,7 +29,7 @@
     <select id="level" name="level">
       <option value="">All Levels</option>
       {{#each jobLevels}}
-        <option value="{{this}}">{{this}}</option>
+      <option value="{{this}}">{{this}}</option>
       {{/each}}
     </select>
 
@@ -37,7 +37,7 @@
     <select id="workStyle" name="workStyle">
       <option value="">All Work Styles</option>
       {{#each workStyles}}
-        <option value="{{this}}">{{this}}</option>
+      <option value="{{this}}">{{this}}</option>
       {{/each}}
     </select>
 
@@ -50,7 +50,7 @@
     {{#each jobs}}
       <article class="job-posting">
         <h2>{{title}}</h2>
-        <p>Location: {{location}}<br>Type: {{type_name}}<br>Level: {{level}}<br>Work Style: {{work_style}}<br>Description: {{description}}</p>
+        <p>Location: {{location}}<br>Type: {{type_name}}<br>Level: {{level}}<br>Work Style: {{work_style}}<br>Description: {{description}}<br>Company: {{company_name}}</p>
 
         {{!-- <form method="POST" action="/job-seeker/saveJob"> --}}
         <form class="save-job-form" style="250px;" method="POST" action="/job-seeker/jobSearch/saveJob/{{job_id}}">
@@ -59,10 +59,10 @@
           <button type="submit">Save</button>
         </form>
 
-      </article>
+  </article>
 
-    {{/each}}
+  {{/each}}
   {{else}}
-    <p>No jobs found matching your filters.</p>
+  <p>No jobs found matching your filters.</p>
   {{/if}}
 </section>
